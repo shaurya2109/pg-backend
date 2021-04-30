@@ -202,22 +202,23 @@ public class Query {
 
     /**
      * Checks whether or not this groupname already exists
-     * @param username of the person creating the group
      * @param groupname of the group being created
      * @return true if the groupname exists, false otherwise
      */
-//    public boolean checkGroup(String groupname){
-//        try {
-//            groupname =  groupname.toLowerCase();
-//            checkGroup.setString(1, groupname);
-//            int groupResult = checkGroup.execute();
-//            //returns true if there already is a groupname with the same name
-//            return groupResult >= 1;
-//
-//        } catch (SQLException error){
-//            return false;
-//        }
-//    }
+    public boolean checkGroup(String groupname){
+        try {
+            groupname =  groupname.toLowerCase();
+            checkGroup.setString(1, groupname);
+            ResultSet rs = checkGroup.executeQuery();
+            int num = 0;
+            while (rs.next()) {
+                num = rs.getInt(1);
+            }
+            return num == 1;
+        } catch (SQLException error){
+            return false;
+        }
+    }
 
     /**
      * Checks whether or not a member is already in a group

@@ -49,6 +49,24 @@ public class Server {
             }
         });
 
+        delete("/users/delete", (request, response) -> {
+            try {
+                JSONObject user = new JSONObject(request.body());
+                String username = user.getString("userName");
+
+                if (query.userExists(username) && query.deleteUser(username)) {
+                    response.status(200);
+                    return ("Success, deleted " + username);
+                } else {
+                    response.status(400);
+                    return ("Error deleting user");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
         // login user
         get("/users/login", (request, response) -> {
             try {
@@ -71,27 +89,27 @@ public class Server {
             }
         });
 
-        // post("/groups/create", (request, response) -> {
-        //     String username = request.queryParams("Username");
-
-        //     try {
-        //         if (!query.userExists(username)) {
-        //             response.status(400);
-        //             return ("Username doesn't exist");
-        //         } else if (query.inGroup(username)) {
-        //             response.status(400);
-        //             return ("You're already in a group");
-        //         } else if (query.create(username, password)) {
-        //             response.status(200);
-        //             return ("Success");
-        //         } else {
-        //             response.status(400);
-        //             return ("Username and password don't match");
-        //         }
-        //     } catch (Exception e) {
-        //         response.status(400);
-        //         return (e);
-        //     }
-        // });
+//         post("/groups/create", (request, response) -> {
+//             String username = request.queryParams("Username");
+//
+//             try {
+//                 if (!query.userExists(username)) {
+//                     response.status(400);
+//                     return ("Username doesn't exist");
+//                 } else if (query.inGroup(username)) {
+//                     response.status(400);
+//                     return ("You're already in a group");
+//                 } else if (query.create(username, password)) {
+//                     response.status(200);
+//                     return ("Success");
+//                 } else {
+//                     response.status(400);
+//                     return ("Username and password don't match");
+//                 }
+//             } catch (Exception e) {
+//                 response.status(400);
+//                 return (e);
+//             }
+//         });
     }
 }
