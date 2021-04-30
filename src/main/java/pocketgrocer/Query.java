@@ -85,7 +85,7 @@ public class Query {
 //            return userExists == 1;
             // TODO: check w soph
             return insertUser.execute();
-        } catch(SQLException error){
+        } catch(SQLException error) {
             return false;
         }
     }

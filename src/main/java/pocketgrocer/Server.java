@@ -1,7 +1,8 @@
 package pocketgrocer;
 
-import com.google.gson.Gson;
+// import com.google.gson.Gson;
 import static spark.Spark.*;
+import org.json.JSONObject;
 
 /*
 409 - conflict
@@ -11,26 +12,29 @@ import static spark.Spark.*;
 
 public class Server {
     public static void main(String[] args) {
-        // Java serialization/deserialization library to convert Java Objects into JSON and back
-        // https://github.com/google/gson
-        Gson gson = new Gson();
         Query query = new Query();
+        // port(8080);
 
         // Spark HTTP Endpoints¸
-        get("/hello", (req, res) -> "Hello World");
+        get("/hello", (req, res) -> "Hello");
+
+        get("/stop", (request, response) -> {
+            stop();
+            return "Server Stopped";
+        });
 
         // create user
         post("/users/add", (request, response) -> {
-            String username = request.queryParams("Username");
-            String firstName = request.queryParams("FirstName");
-            String lastName = request.queryParams("LastName");
-            String password = request.queryParams("Password");
-
             try {
+                JSONObject user = new JSONObject(request.body());
+                String username = user.getString("Username");
+                String firstName = user.getString("FirstName");
+                String lastName = user.getString("LastName");
+
                 if (query.userExists(username)) {
                     response.status(409);
                     return ("Username already taken");
-                } else if (query.addUser(username, firstName, lastName, password)) {
+                } else if (query.addUser(username, firstName, lastName, user.getString("Password"))) {
                     response.status(200);
                     return ("Success, welcome " + username);
                 } else {
