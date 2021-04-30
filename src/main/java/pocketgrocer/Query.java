@@ -42,13 +42,12 @@ public class Query {
     private static final String CHECK_GROUP = "SELECT COUNT(*) FROM USERS WHERE groupName = (?)";
     private PreparedStatement checkGroup;
 
-    // private static final String CHECK_MEMBER = "SELECT COUNT(*) FROM USERS WHERE groupName = (?)";
-    // private PreparedStatement checkMember;
-
     private static final String SEARCH_USER = "SELECT * FROM USERS WHERE userName = (?)";
     private PreparedStatement searchUser;
 
     //adds a member to a group
+    //this can also be used when a user is removed from a group because we set their groupID back to ""
+    //if we want to use this statement for both it will need a more general name like UPDATE_MEMBER_GROUP
     private static final String ADD_MEMBER = "UPDATE USERS set groupID = (?) WHERE userName = (?)";
     private PreparedStatement addMember;
 
@@ -223,7 +222,7 @@ public class Query {
     /**
      * Checks whether or not a member is already in a group
      * @param username of the person wanting to create or add themselves to a group
-     * @return true if the user is already in a group, false otherwise
+     * @return true if the user is not currently in a group, false otherwise
      */
     public boolean checkMember(String username){
         try {
