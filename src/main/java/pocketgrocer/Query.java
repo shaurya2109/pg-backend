@@ -256,7 +256,7 @@ public class Query {
             groupname =  groupname.toLowerCase();
             addMember.setString(1, groupname);
             addMember.setString(2, username);
-            addMember.execute();
+            addMember.executeQuery();
             return true;
         } catch (SQLException error){
             return false;
