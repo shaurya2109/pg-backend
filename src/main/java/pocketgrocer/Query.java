@@ -1,7 +1,11 @@
 package pocketgrocer;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.logging.Logger;
 import java.security.*;
@@ -11,7 +15,7 @@ import javax.crypto.spec.*;
 
 public class Query {
     // DB Connection
-    private Connection conn;
+    private static Connection conn;
 
     private static final Logger log;
 
@@ -56,40 +60,37 @@ public class Query {
     /*
      * prepare all the SQL statements in this method.
      */
-    public void prepareStatements() throws SQLException {
+    public void prepareStatements() throws SQLException, IOException {
         insertUser =  conn.prepareStatement(INSERT_USER);
         deleteUser =  conn.prepareStatement(DELETE_USER);
         checkUser =  conn.prepareStatement(CHECK_USER);
         searchUser =  conn.prepareStatement(SEARCH_USER);
-
         checkGroup =  conn.prepareStatement(CHECK_GROUP);
         // checkMember = conn.prepareStatement(CHECK_MEMBER);
         addMember =  conn.prepareStatement(ADD_MEMBER);
 
     }
 
-    public static void main(String[] args) throws Exception {
+    public Query() throws Exception {
         log.info("Loading application properties");
         Properties properties = new Properties();
         properties.load(new FileInputStream("src/main/java/pocketgrocer/resources/application.properties"));
 
         log.info("Connecting to the database");
-        Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties);
-        log.info("Database connection test: " + connection.getCatalog());
+        conn = DriverManager.getConnection(properties.getProperty("url"), properties);
+        log.info("Database connection test: " + conn.getCatalog());
 
         log.info("Create database schema");
         Scanner scanner = new Scanner(new FileInputStream("src/main/java/pocketgrocer/resources/schema.sql"));
-        Statement statement = connection.createStatement();
+        Statement statement = conn.createStatement();
         while (scanner.hasNextLine()) {
             statement.execute(scanner.nextLine());
         }
-
-        log.info("Closing database connection");
-        connection.close();
     }
 
     // function to close the connection to a SQL database
     public void closeConnection() throws SQLException {
+        log.info("Closing database connection");
         conn.close();
     }
 
@@ -99,10 +100,15 @@ public class Query {
      * @param username
      * @return whether or not the user already exists
      */
-    public boolean userExists(String username){
+    public boolean userExists(String username) {
         try {
             checkUser.setString(1, username);
-            return checkUser.execute();
+            ResultSet rs = checkUser.executeQuery();
+            int num = 0;
+            while (rs.next()) {
+                num = rs.getInt(1);
+            }
+            return num == 1;
         } catch (SQLException error){
             return false;
         }
@@ -178,26 +184,20 @@ public class Query {
      * @param username
      * @return whether or not the user was successfully logged in
      */
-    public boolean checkLogin(String username, String password){
-        try {
+    public boolean checkLogin(String username, String pass) throws SQLException {
             username = username.toLowerCase();
-            password =  password.toLowerCase();
+            pass =  pass.toLowerCase();
             searchUser.setString(1, username);
             ResultSet userSet = searchUser.executeQuery();
 
             while(userSet.next()){
                 String getUser = userSet.getString("userName");
                 String getPass = userSet.getString("password");
-                if(getUser.equals(username) && getPass.equals("password")){
+                if(getUser.equals(username) && getPass.equals(pass)) {
                     return true;
                 }
             }
-            //TODO: if we return false then we want the person making the request to know if the username/password didn't match
-            //or if there was a general error that occured
             return false;
-        } catch (SQLException error){
-            return false;
-        }
     }
 
     /**

@@ -11,14 +11,16 @@ import org.json.JSONObject;
 */
 
 public class Server {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Query query = new Query();
+        query.prepareStatements();
         // port(8080);
 
         // Spark HTTP Endpoints¸
         get("/hello", (req, res) -> "Hello");
 
         get("/stop", (request, response) -> {
+            query.closeConnection();
             stop();
             return "Server Stopped";
         });
@@ -27,9 +29,9 @@ public class Server {
         post("/users/add", (request, response) -> {
             try {
                 JSONObject user = new JSONObject(request.body());
-                String username = user.getString("Username");
-                String firstName = user.getString("FirstName");
-                String lastName = user.getString("LastName");
+                String username = user.getString("userName");
+                String firstName = user.getString("firstName");
+                String lastName = user.getString("lastName");
 
                 if (query.userExists(username)) {
                     response.status(409);
@@ -48,15 +50,15 @@ public class Server {
         });
 
         // login user
-        get("/users/login", (request, response) -> {
-            String username = request.queryParams("Username");
-            String password = request.queryParams("Password");
-
+        get("/users/ ", (request, response) -> {
             try {
+                JSONObject login = new JSONObject(request.body());
+                String username = login.getString("password");
+                String password = login.getString("firstName");
                 if (!query.userExists(username)) {
                     response.status(400);
                     return ("Username doesn't exist");
-                } else if (true) { //query.checkLogin(username, password)
+                } else if (query.checkLogin(username, password)) {
                     response.status(200);
                     return ("Success");
                 } else {
