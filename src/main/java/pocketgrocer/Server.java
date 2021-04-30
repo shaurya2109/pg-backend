@@ -36,7 +36,7 @@ public class Server {
                 if (query.userExists(username)) {
                     response.status(409);
                     return ("Username already taken");
-                } else if (query.addUser(username, firstName, lastName, user.getString("Password"))) {
+                } else if (query.addUser(username, firstName, lastName, user.getString("password"))) {
                     response.status(200);
                     return ("Success, welcome " + username);
                 } else {
@@ -50,11 +50,11 @@ public class Server {
         });
 
         // login user
-        get("/users/ ", (request, response) -> {
+        get("/users/login", (request, response) -> {
             try {
                 JSONObject login = new JSONObject(request.body());
-                String username = login.getString("password");
-                String password = login.getString("firstName");
+                String username = login.getString("userName");
+                String password = login.getString("password");
                 if (!query.userExists(username)) {
                     response.status(400);
                     return ("Username doesn't exist");
