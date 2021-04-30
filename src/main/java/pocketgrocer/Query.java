@@ -63,7 +63,7 @@ public class Query {
         searchUser =  conn.prepareStatement(SEARCH_USER);
 
         checkGroup =  conn.prepareStatement(CHECK_GROUP);
-        checkMember = conn.prepareStatement(CHECK_MEMBER);
+        // checkMember = conn.prepareStatement(CHECK_MEMBER);
         addMember =  conn.prepareStatement(ADD_MEMBER);
 
     }
@@ -71,14 +71,14 @@ public class Query {
     public static void main(String[] args) throws Exception {
         log.info("Loading application properties");
         Properties properties = new Properties();
-        properties.load(Query.class.getClassLoader().getResourceAsStream("application.properties"));
+        properties.load(new FileInputStream("src/main/java/pocketgrocer/resources/application.properties"));
 
         log.info("Connecting to the database");
         Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties);
         log.info("Database connection test: " + connection.getCatalog());
 
         log.info("Create database schema");
-        Scanner scanner = new Scanner(Query.class.getClassLoader().getResourceAsStream("schema.sql"));
+        Scanner scanner = new Scanner(new FileInputStream("src/main/java/pocketgrocer/resources/schema.sql"));
         Statement statement = connection.createStatement();
         while (scanner.hasNextLine()) {
             statement.execute(scanner.nextLine());
@@ -102,9 +102,7 @@ public class Query {
     public boolean userExists(String username){
         try {
             checkUser.setString(1, username);
-            int userExists = checkUser.execute();
-            return userExists == 1;
-
+            return checkUser.execute();
         } catch (SQLException error){
             return false;
         }
@@ -131,9 +129,6 @@ public class Query {
             insertUser.setString(4, password);
             //adds an empty groupName for the user since its blank until they set one
             insertUser.setString(5, "");
-
-            //We may need to add '' instead of "", we'll try both
-            //insertUser.setString(5, '');
             insertUser.execute();
 
             // // Generate a random cryptographic salt
@@ -155,7 +150,7 @@ public class Query {
             return true;
 
 
-        } catch (SQLException error)){
+        } catch (SQLException error){
             return false;
         }
 
@@ -197,8 +192,9 @@ public class Query {
                     return true;
                 }
             }
-        //TODO: if we return false then we want the person making the request to know if the username/password didn't match 
-        //or if there was a general error that occured
+            //TODO: if we return false then we want the person making the request to know if the username/password didn't match
+            //or if there was a general error that occured
+            return false;
         } catch (SQLException error){
             return false;
         }
@@ -210,18 +206,18 @@ public class Query {
      * @param groupname of the group being created
      * @return true if the groupname exists, false otherwise
      */
-    public boolean checkGroup(String groupname){
-        try {
-            groupname =  groupname.toLowerCase();
-            checkGroup.setString(1, groupname);
-            int groupResult = checkGroup.execute();
-            //returns true if there already is a groupname with the same name 
-            return groupResult >= 1;
-
-        } catch (SQLException error){
-            return false;
-        }
-    }
+//    public boolean checkGroup(String groupname){
+//        try {
+//            groupname =  groupname.toLowerCase();
+//            checkGroup.setString(1, groupname);
+//            int groupResult = checkGroup.execute();
+//            //returns true if there already is a groupname with the same name
+//            return groupResult >= 1;
+//
+//        } catch (SQLException error){
+//            return false;
+//        }
+//    }
 
     /**
      * Checks whether or not a member is already in a group
@@ -230,19 +226,19 @@ public class Query {
      */
     public boolean checkMember(String username){
         try {
-            groupname = groupname.toLowerCase();
-            searchUser.setString(1, username)
+            // groupname = groupname.toLowerCase();
+            searchUser.setString(1, username);
             ResultSet userSet = searchUser.executeQuery();
-            while(userSet.next()){
+            while(userSet.next()) {
                 String getGroup = userSet.getString("groupID");
                 //if the group entry for the user is blank, they can now be added to a group
-                //possibly need to check for '' instead of ""
                 if(getGroup.equals("")){
                     return true;
                 } else {
                     return false;
                 }
             }
+            return false;
         } catch (SQLException error){
             return false;
         }
@@ -251,7 +247,7 @@ public class Query {
     /**
      * Adds a member to a group
      * @param username of the person being added
-     * @param groupname of the group 
+     * @param groupname of the group
      * @return true if member is successfully added to the group, false otherwise
      */
     public boolean AddMemberToGroup(String username, String groupname){
@@ -261,7 +257,7 @@ public class Query {
             addMember.setString(1, groupname);
             addMember.setString(2, username);
             addMember.execute();
-
+            return true;
         } catch (SQLException error){
             return false;
         }
