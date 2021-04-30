@@ -131,6 +131,9 @@ public class Query {
             insertUser.setString(4, password);
             //adds an empty groupName for the user since its blank until they set one
             insertUser.setString(5, "");
+
+            //We may need to add '' instead of "", we'll try both
+            //insertUser.setString(5, '');
             insertUser.execute();
 
             // // Generate a random cryptographic salt
@@ -233,6 +236,7 @@ public class Query {
             while(userSet.next()){
                 String getGroup = userSet.getString("groupID");
                 //if the group entry for the user is blank, they can now be added to a group
+                //possibly need to check for '' instead of ""
                 if(getGroup.equals("")){
                     return true;
                 } else {
