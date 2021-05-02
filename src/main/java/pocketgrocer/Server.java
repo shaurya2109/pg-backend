@@ -14,7 +14,7 @@ public class Server {
     public static void main(String[] args) throws Exception {
         Query query = new Query();
         query.prepareStatements();
-        port(8080);
+        // port(8080);
 
         // Spark HTTP Endpoints
 
@@ -26,6 +26,25 @@ public class Server {
             query.closeConnection();
             stop();
             return "Server Stopped";
+        });
+
+        // check if user exists
+        get("/users/exists", (request, response) -> {
+            try {
+                JSONObject user = new JSONObject(request.body());
+                String username = user.getString("userName");
+
+                if (!query.userExists(username)) {
+                    response.status(200);
+                    return ("Username NOT taken");
+                } else {
+                    response.status(409);
+                    return ("Username already taken");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
         });
 
         // create user
@@ -93,7 +112,8 @@ public class Server {
         });
 
         get("/users/ingroup", (request, response) -> {
-            String username = request.queryParams("userName");
+            JSONObject user = new JSONObject(request.body());
+            String username = user.getString("userName");
 
             try {
                 if (!query.userExists(username)) {
@@ -112,9 +132,29 @@ public class Server {
             }
         });
 
+        get("/groups/exists", (request, response) -> {
+            JSONObject group = new JSONObject(request.body());
+            String groupname = group.getString("groupName");
+
+            try {
+                if (!query.checkGroupExists(groupname)) {
+                    response.status(200);
+                    return (groupname + " is not in use, yet");
+
+                } else {
+                    response.status(400);
+                    return ("Group Name " + groupname + " is taken");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
          post("/groups/create", (request, response) -> {
-             String username = request.queryParams("userName");
-             String groupname = request.queryParams("groupName");
+             JSONObject create = new JSONObject(request.body());
+             String username = create.getString("userName");
+             String groupname = create.getString("groupName");
 
              try {
                  if (!query.userExists(username)) {
@@ -131,7 +171,7 @@ public class Server {
                      return ("User successfully added to group");
                  } else {
                      response.status(400);
-                     return ("Username and password don't match");
+                     return ("Filed adding user to group");
                  }
              } catch (Exception e) {
                  response.status(400);
