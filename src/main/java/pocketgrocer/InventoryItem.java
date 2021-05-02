@@ -10,7 +10,7 @@ public class InventoryItem {
     String date;
 
     public InventoryItem (int itemID, String itemName, String userName, int shared,
-                          int quantity, int storage, String date, String groupName) {
+                          int quantity, int storage, String date) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.userName = userName;
