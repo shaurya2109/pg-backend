@@ -23,8 +23,7 @@ public class Query {
     private static final int HASH_STRENGTH = 65536;
     private static final int KEY_LENGTH = 128;
 
-    //Users table columns: userName, firstName, lastName, password, groupID
-    //Groups table columns: userName, firstName, lastName, password, groupID
+    //Users table columns: userName, firstName, lastName, password, groupName
 
     //canned queries
     private static final String INSERT_USER = "INSERT INTO USERS VALUES (?,?,?,?,?)";
@@ -45,10 +44,14 @@ public class Query {
     private static final String SEARCH_USER = "SELECT * FROM USERS WHERE userName = (?)";
     private PreparedStatement searchUser;
 
+    private static final String ADD_ITEM = "INSERT INTO INVENTORY VALUES (?,?,?,?,?,?,?,?,?)";
+    private PreparedStatement addItem;
+
+
     //adds a member to a group
-    //this can also be used when a user is removed from a group because we set their groupID back to ""
+    //this can also be used when a user is removed from a group because we set their groupName back to ""
     //if we want to use this statement for both it will need a more general name like UPDATE_MEMBER_GROUP
-    private static final String ADD_MEMBER = "UPDATE USERS set groupID = (?) WHERE userName = (?)";
+    private static final String ADD_MEMBER = "UPDATE USERS set groupName = (?) WHERE userName = (?)";
     private PreparedStatement addMember;
 
     static {
@@ -67,6 +70,7 @@ public class Query {
         checkGroup =  conn.prepareStatement(CHECK_GROUP);
         // checkMember = conn.prepareStatement(CHECK_MEMBER);
         addMember =  conn.prepareStatement(ADD_MEMBER);
+        addItem =  conn.prepareStatement(ADD_ITEM);
 
     }
 
@@ -202,9 +206,9 @@ public class Query {
     /**
      * Checks whether or not this groupname already exists
      * @param groupname of the group being created
-     * @return true if the groupname exists, false otherwise
+     * @return true if the groupName exists, false otherwise
      */
-    public boolean checkGroup(String groupname){
+    public boolean checkGroupExists(String groupname){
         try {
             groupname =  groupname.toLowerCase();
             checkGroup.setString(1, groupname);
@@ -221,21 +225,20 @@ public class Query {
 
     /**
      * Checks whether or not a member is already in a group
-     * @param username of the person wanting to create or add themselves to a group
-     * @return true if the user is not currently in a group, false otherwise
+     * @param userName of the person wanting to create or add themselves to a group
+     * @return true if the user is in a group
      */
-    public boolean checkMember(String username){
+    public boolean isMemberInGroup(String userName){
         try {
-            // groupname = groupname.toLowerCase();
-            searchUser.setString(1, username);
-            ResultSet userSet = searchUser.executeQuery();
-            while(userSet.next()) {
-                String getGroup = userSet.getString("groupID");
+            searchUser.setString(1, userName);
+            ResultSet rs = searchUser.executeQuery();
+            while(rs.next()) {
+                String getGroup = rs.getString("groupName");
                 //if the group entry for the user is blank, they can now be added to a group
                 if(getGroup.equals("")){
-                    return true;
-                } else {
                     return false;
+                } else {
+                    return true;
                 }
             }
             return false;
@@ -246,16 +249,16 @@ public class Query {
 
     /**
      * Adds a member to a group
-     * @param username of the person being added
-     * @param groupname of the group
+     * @param userName of the person being added
+     * @param groupName of the group
      * @return true if member is successfully added to the group, false otherwise
      */
-    public boolean AddMemberToGroup(String username, String groupname){
+    public boolean addMemberToGroup(String userName, String groupName){
         try {
-            username = username.toLowerCase();
-            groupname =  groupname.toLowerCase();
-            addMember.setString(1, groupname);
-            addMember.setString(2, username);
+            userName = userName.toLowerCase();
+            groupName = groupName.toLowerCase();
+            addMember.setString(1, groupName);
+            addMember.setString(2, userName);
             addMember.executeQuery();
             return true;
         } catch (SQLException error){
@@ -263,19 +266,32 @@ public class Query {
         }
     }
 
-//       /**
-//    * Example utility function that uses prepared statements
-//    */
-//   private int checkFlightCapacity(int fid) throws SQLException {
-//     checkFlightCapacityStatement.clearParameters();
-//     checkFlightCapacityStatement.setInt(1, fid);
-//     ResultSet results = checkFlightCapacityStatement.executeQuery();
-//     results.next();
-//     int capacity = results.getInt("capacity");
-//     results.close();
+//    /**
+//     * Adds a member to a group
+//     * @param itemName
+//     * @param userName
+//     * @param shared
+//     * @param category
+//     * @param quantity
+//     * @param storage
+//     * @param date
+//     * @param groupName
+//     * @return a list of lists of item entries
+//     */
+//    public void addItem(String itemName, String userName, int shared, String category, int quantity, String date, int storage, String groupName){
+//        try {
+//            //create a list
+//
+//            //for the # of items (quantity)
+//
+//            //generate a unique ID using the updating int in an array for the item name
+//
+//            return;
+//        } catch (SQLException error){
+//            return;
+//        }
+//    }
 
-//     return capacity;
-//   }
 
 }
 
