@@ -188,19 +188,19 @@ public class Query {
      * @return whether or not the user was successfully logged in
      */
     public boolean checkLogin(String userName, String pass) throws SQLException {
-            userName = userName.toLowerCase();
-            pass =  pass.toLowerCase();
-            searchUser.setString(1, userName);
-            ResultSet userSet = searchUser.executeQuery();
+        userName = userName.toLowerCase();
+        pass =  pass.toLowerCase();
+        searchUser.setString(1, userName);
+        ResultSet userSet = searchUser.executeQuery();
 
-            while(userSet.next()){
-                String getUser = userSet.getString("userName");
-                String getPass = userSet.getString("password");
-                if(getUser.equals(userName) && getPass.equals(pass)) {
-                    return true;
-                }
+        while(userSet.next()){
+            String getUser = userSet.getString("userName");
+            String getPass = userSet.getString("password");
+            if(getUser.equals(userName) && getPass.equals(pass)) {
+                return true;
             }
-            return false;
+        }
+        return false;
     }
 
     /**

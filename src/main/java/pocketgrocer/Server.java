@@ -14,11 +14,14 @@ public class Server {
     public static void main(String[] args) throws Exception {
         Query query = new Query();
         query.prepareStatements();
-        // port(8080);
+        port(8080);
 
-        // Spark HTTP Endpoints¸
-        get("/hello", (req, res) -> "Hello");
+        // Spark HTTP Endpoints
 
+        // Hello World API Test
+        get("/hello", (req, res) -> "Hello World");
+
+        // stop
         get("/stop", (request, response) -> {
             query.closeConnection();
             stop();
@@ -89,27 +92,51 @@ public class Server {
             }
         });
 
-//         post("/groups/create", (request, response) -> {
-//             String username = request.queryParams("Username");
-//
-//             try {
-//                 if (!query.userExists(username)) {
-//                     response.status(400);
-//                     return ("Username doesn't exist");
-//                 } else if (query.inGroup(username)) {
-//                     response.status(400);
-//                     return ("You're already in a group");
-//                 } else if (query.create(username, password)) {
-//                     response.status(200);
-//                     return ("Success");
-//                 } else {
-//                     response.status(400);
-//                     return ("Username and password don't match");
-//                 }
-//             } catch (Exception e) {
-//                 response.status(400);
-//                 return (e);
-//             }
-//         });
+        get("/users/ingroup", (request, response) -> {
+            String username = request.queryParams("userName");
+
+            try {
+                if (!query.userExists(username)) {
+                    response.status(400);
+                    return ("Username doesn't exist");
+                } else if (query.isMemberInGroup(username)) {
+                    response.status(200);
+                    return ("User " + username + " is in a group");
+                } else {
+                    response.status(400);
+                    return ("User " + username + " is not in a group");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
+         post("/groups/create", (request, response) -> {
+             String username = request.queryParams("userName");
+             String groupname = request.queryParams("groupName");
+
+             try {
+                 if (!query.userExists(username)) {
+                     response.status(400);
+                     return ("Username doesn't exist");
+                 } else if (query.isMemberInGroup(username)) {
+                     response.status(400);
+                     return ("User is already in a group");
+                 } else if (query.checkGroupExists(groupname)) {
+                     response.status(400);
+                     return ("Group Name already exists");
+                 } else if (query.addMemberToGroup(username, groupname)) {
+                     response.status(200);
+                     return ("User successfully added to group");
+                 } else {
+                     response.status(400);
+                     return ("Username and password don't match");
+                 }
+             } catch (Exception e) {
+                 response.status(400);
+                 return (e);
+             }
+         });
     }
 }
