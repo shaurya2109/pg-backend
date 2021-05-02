@@ -100,12 +100,12 @@ public class Query {
 
     /**
      * checks if a user with the given username already exists in the database
-     * @param username
+     * @param userName
      * @return whether or not the user already exists
      */
-    public boolean userExists(String username) {
+    public boolean userExists(String userName) {
         try {
-            checkUser.setString(1, username);
+            checkUser.setString(1, userName);
             ResultSet rs = checkUser.executeQuery();
             int num = 0;
             while (rs.next()) {
@@ -119,20 +119,20 @@ public class Query {
 
     /**
      * Adds a user into the USERS table
-     * @param username
+     * @param userName
      * @param firstName
      * @param lastName
      * @param password
      * @return whether or not the user was successfully added
      */
-    public boolean addUser(String username, String firstName, String lastName, String password){
+    public boolean addUser(String userName, String firstName, String lastName, String password){
         try {
-            username = username.toLowerCase();
+            userName = userName.toLowerCase();
             firstName = firstName.toLowerCase();
             lastName = lastName.toLowerCase();
             password = password.toLowerCase();
 
-            insertUser.setString(1, username);
+            insertUser.setString(1, userName);
             insertUser.setString(2, firstName);
             insertUser.setString(3, lastName);
             insertUser.setString(4, password);
@@ -167,13 +167,13 @@ public class Query {
 
     /**
      * Deletes a User
-     * @param username
+     * @param userName
      * @return whether or not the user was successfully deleted
      */
-    public boolean deleteUser(String username){
+    public boolean deleteUser(String userName){
         try {
             //We don't need to check if the user exists in the table since the request is coming straight from
-            deleteUser.setString(1, username);
+            deleteUser.setString(1, userName);
             deleteUser.execute();
             return true;
 
@@ -184,19 +184,19 @@ public class Query {
 
     /**
      * Logs in a User
-     * @param username
+     * @param userName
      * @return whether or not the user was successfully logged in
      */
-    public boolean checkLogin(String username, String pass) throws SQLException {
-            username = username.toLowerCase();
+    public boolean checkLogin(String userName, String pass) throws SQLException {
+            userName = userName.toLowerCase();
             pass =  pass.toLowerCase();
-            searchUser.setString(1, username);
+            searchUser.setString(1, userName);
             ResultSet userSet = searchUser.executeQuery();
 
             while(userSet.next()){
                 String getUser = userSet.getString("userName");
                 String getPass = userSet.getString("password");
-                if(getUser.equals(username) && getPass.equals(pass)) {
+                if(getUser.equals(userName) && getPass.equals(pass)) {
                     return true;
                 }
             }
