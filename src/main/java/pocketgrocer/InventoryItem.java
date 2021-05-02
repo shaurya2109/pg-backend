@@ -8,8 +8,6 @@ public class InventoryItem {
     int quantity;
     int storage;
     String date;
-    String groupName;
-
 
     public InventoryItem (int itemID, String itemName, String userName, int shared,
                           int quantity, int storage, String date, String groupName) {
@@ -20,6 +18,5 @@ public class InventoryItem {
         this.quantity = quantity;
         this.storage = storage;
         this.date = date;
-        this.groupName = groupName;
     }
 }
