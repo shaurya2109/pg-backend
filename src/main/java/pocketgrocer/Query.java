@@ -255,8 +255,23 @@ public class Query {
      */
     public boolean addMemberToGroup(String userName, String groupName){
         try {
-            userName = userName.toLowerCase();
-            groupName = groupName.toLowerCase();
+            addMember.setString(1, groupName);
+            addMember.setString(2, userName);
+            addMember.executeQuery();
+            return true;
+        } catch (SQLException error){
+            return false;
+        }
+    }
+
+    /**
+     * Updates the groupName of a member
+     * @param userName of the person being added
+     * @param groupName of the group
+     * @return true if the groupName was
+     */
+    public boolean updateGroupName(String userName, String groupName){
+        try {
             addMember.setString(1, groupName);
             addMember.setString(2, userName);
             addMember.executeQuery();
