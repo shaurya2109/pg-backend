@@ -248,23 +248,6 @@ public class Query {
     }
 
     /**
-     * Adds a member to a group
-     * @param userName of the person being added
-     * @param groupName of the group
-     * @return true if member is successfully added to the group, false otherwise
-     */
-    public boolean addMemberToGroup(String userName, String groupName){
-        try {
-            addMember.setString(1, groupName);
-            addMember.setString(2, userName);
-            addMember.executeQuery();
-            return true;
-        } catch (SQLException error){
-            return false;
-        }
-    }
-
-    /**
      * Updates the groupName of a member
      * @param userName of the person being added
      * @param groupName of the group
@@ -274,9 +257,10 @@ public class Query {
         try {
             addMember.setString(1, groupName);
             addMember.setString(2, userName);
-            addMember.executeQuery();
+            ResultSet rs = addMember.executeQuery();
             return true;
         } catch (SQLException error){
+            error.printStackTrace();
             return false;
         }
     }

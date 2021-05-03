@@ -151,6 +151,58 @@ public class Server {
             }
         });
 
+        post("/groups/removeuser", (request, response) -> {
+            JSONObject create = new JSONObject(request.body());
+            String username = create.getString("userName");
+
+            try {
+                if (!query.userExists(username)) {
+                    response.status(400);
+                    return ("Username doesn't exist");
+                } else if (!query.isMemberInGroup(username)) {
+                    response.status(400);
+                    return ("User isn't already in a group");
+                } else if (query.updateGroupName(username, "")) {
+                    response.status(200);
+                    return ("User successfully removed from group");
+                } else {
+                    response.status(400);
+                    return ("Failed removing user from group");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
+        post("/groups/add", (request, response) -> {
+            JSONObject create = new JSONObject(request.body());
+            String username = create.getString("userName");
+            String groupname = create.getString("groupName");
+
+            try {
+                if (!query.userExists(username)) {
+                    response.status(400);
+                    return ("Username doesn't exist");
+                } else if (query.isMemberInGroup(username)) {
+                    response.status(400);
+                    return ("User is already in a group");
+                } else if (!query.checkGroupExists(groupname)) {
+                    response.status(400);
+                    return ("Group Name doesn't exist");
+                } else if (query.updateGroupName(username, groupname)) {
+                    response.status(200);
+                    return ("User successfully added to group");
+                } else {
+                    response.status(400);
+                    return ("Failed adding user to group");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
          post("/groups/create", (request, response) -> {
              JSONObject create = new JSONObject(request.body());
              String username = create.getString("userName");
@@ -166,12 +218,12 @@ public class Server {
                  } else if (query.checkGroupExists(groupname)) {
                      response.status(400);
                      return ("Group Name already exists");
-                 } else if (query.addMemberToGroup(username, groupname)) {
+                 } else if (query.updateGroupName(username, groupname)) {
                      response.status(200);
-                     return ("User successfully added to group");
+                     return ("User successfully created and added to group");
                  } else {
                      response.status(400);
-                     return ("Filed adding user to group");
+                     return ("Failed creating group");
                  }
              } catch (Exception e) {
                  response.status(400);

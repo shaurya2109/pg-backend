@@ -14,8 +14,11 @@ public class TestQuery {
 
         Query query = new Query();
         query.prepareStatements();
-        assertTrue(query.userExists(username));
-        assertFalse(query.userExists("cooper"));
+        // System.out.println(query.addUser("test1", "fN", "lN", "pass"));
+        // System.out.println(query.isMemberInGroup("test1"));
+        System.out.println(query.updateGroupName("sgsevier", "group4745"));
+        // System.out.println(query.isMemberInGroup("test1"));
+        // System.out.println(query.updateGroupName("test1", ""));
         query.closeConnection();
     }
 }
