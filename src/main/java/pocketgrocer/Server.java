@@ -42,7 +42,7 @@ public class Server {
 
                 if (!query.userExists(username)) {
                     response.status(200);
-                    return ("Username NOT taken");
+                    return ("Username available");
                 } else {
                     response.status(409);
                     return ("Username already taken");
@@ -145,7 +145,7 @@ public class Server {
             try {
                 if (!query.checkGroupExists(groupname)) {
                     response.status(200);
-                    return (groupname + " is not in use, yet");
+                    return (groupname + " is available");
 
                 } else {
                     response.status(400);
