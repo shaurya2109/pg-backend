@@ -163,11 +163,11 @@ public class Server {
 
             try {
                 if (!query.userExists(username)) {
-                    response.status(400);
+                    response.status(409);
                     return ("Username doesn't exist");
                 } else if (!query.isMemberInGroup(username)) {
                     response.status(400);
-                    return ("User isn't already in a group");
+                    return ("User isn't in a group");
                 } else if (query.updateGroupName(username, "")) {
                     response.status(200);
                     return ("User successfully removed from group");
@@ -188,13 +188,13 @@ public class Server {
 
             try {
                 if (!query.userExists(username)) {
-                    response.status(400);
+                    response.status(409);
                     return ("Username doesn't exist");
                 } else if (query.isMemberInGroup(username)) {
                     response.status(400);
                     return ("User is already in a group");
                 } else if (!query.checkGroupExists(groupname)) {
-                    response.status(400);
+                    response.status(409);
                     return ("Group Name doesn't exist");
                 } else if (query.updateGroupName(username, groupname)) {
                     response.status(200);
@@ -216,7 +216,7 @@ public class Server {
 
              try {
                  if (!query.userExists(username)) {
-                     response.status(400);
+                     response.status(409);
                      return ("Username doesn't exist");
                  } else if (query.isMemberInGroup(username)) {
                      response.status(400);
@@ -226,7 +226,7 @@ public class Server {
                      return ("Group Name already exists");
                  } else if (query.updateGroupName(username, groupname)) {
                      response.status(200);
-                     return ("User successfully created and added to group");
+                     return ("Successfully created group and added the user");
                  } else {
                      response.status(400);
                      return ("Failed creating group");
