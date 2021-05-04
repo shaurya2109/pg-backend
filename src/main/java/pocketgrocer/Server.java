@@ -102,7 +102,7 @@ public class Server {
                 String username = login.getString("userName");
                 String password = login.getString("password");
                 if (!query.userExists(username)) {
-                    response.status(400);
+                    response.status(409);
                     return ("Username doesn't exist");
                 } else if (query.checkLogin(username, password)) {
                     response.status(200);
