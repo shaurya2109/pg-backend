@@ -248,20 +248,19 @@ public class Query {
     }
 
     /**
-     * Adds a member to a group
+     * Updates the groupName of a member
      * @param userName of the person being added
      * @param groupName of the group
-     * @return true if member is successfully added to the group, false otherwise
+     * @return true if the groupName was
      */
-    public boolean addMemberToGroup(String userName, String groupName){
+    public boolean updateGroupName(String userName, String groupName){
         try {
-            userName = userName.toLowerCase();
-            groupName = groupName.toLowerCase();
             addMember.setString(1, groupName);
             addMember.setString(2, userName);
-            addMember.executeQuery();
+            ResultSet rs = addMember.executeQuery();
             return true;
         } catch (SQLException error){
+            error.printStackTrace();
             return false;
         }
     }
