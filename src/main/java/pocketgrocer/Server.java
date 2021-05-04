@@ -3,6 +3,7 @@ package pocketgrocer;
 // import com.google.gson.Gson;
 import static spark.Spark.*;
 import org.json.JSONObject;
+import spark.Filter;
 
 /*
 409 - conflict
@@ -15,6 +16,11 @@ public class Server {
         Query query = new Query();
         query.prepareStatements();
         port(8080);
+
+        after((Filter) (request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET");
+        });
 
         // Spark HTTP Endpoints
 

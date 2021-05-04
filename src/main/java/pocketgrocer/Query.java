@@ -278,6 +278,15 @@ public class Query {
 //     * @param groupName
 //     * @return a list of lists of item entries
 //     */
+
+
+    // get the group name for the person that the item is being added
+    // counter variable in a table
+    // auto increment implementation
+
+
+
+
 //    public void addItem(String itemName, String userName, int shared, String category, int quantity, String date, int storage, String groupName){
 //        try {
 //            //create a list
@@ -301,3 +310,7 @@ query.addUser(username, firstName, lastName, password);
 query.checkLogin(username, password);
 query.inGroup(username); // checks if user is already in a group or not
 */
+
+
+
+// add item to the inventory datapoint
