@@ -123,7 +123,7 @@ public class Server {
 
             try {
                 if (!query.userExists(username)) {
-                    response.status(400);
+                    response.status(409);
                     return ("Username doesn't exist");
                 } else if (query.isMemberInGroup(username)) {
                     response.status(200);
