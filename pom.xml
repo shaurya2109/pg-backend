@@ -81,7 +81,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>Main</mainClass>
+                            <mainClass>Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -93,7 +93,7 @@
                 <configuration>
                     <jdkVersion>1.8</jdkVersion>
                     <!-- Use your own application name -->
-                    <appName>pocketgrocer-api</appName>
+                    <appName>pocketgrocer</appName>
                     <processTypes>
                         <!-- Tell Heroku how to launch your application -->
                         <!-- You might have to remove the ./ in front   -->
