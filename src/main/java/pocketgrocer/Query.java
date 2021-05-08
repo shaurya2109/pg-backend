@@ -44,7 +44,7 @@ public class Query {
     private static final String SEARCH_USER = "SELECT * FROM USERS WHERE userName = (?)";
     private PreparedStatement searchUser;
 
-    private static final String ADD_ITEM = "INSERT INTO INVENTORY VALUES (?,?,?,?,?,?,?,?,?)";
+    private static final String ADD_ITEM = "INSERT INTO INVENTORY VALUES (?,?,?,?,?,?,?)";
     private PreparedStatement addItem;
 
 
