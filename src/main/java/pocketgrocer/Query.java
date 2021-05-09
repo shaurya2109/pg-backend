@@ -136,7 +136,7 @@ public class Query {
      * @param password
      * @return whether or not the user was successfully added
      */
-    public boolean addUser(String userName, String firstName, String lastName, String password){
+    public boolean addUser(String userName, String firstName, String lastName, String password) {
         try {
             userName = userName.toLowerCase();
             firstName = firstName.toLowerCase();
@@ -181,7 +181,7 @@ public class Query {
      * @param userName
      * @return whether or not the user was successfully deleted
      */
-    public boolean deleteUser(String userName){
+    public boolean deleteUser(String userName) {
         try {
             //We don't need to check if the user exists in the table since the request is coming straight from
             deleteUser.setString(1, userName);
@@ -219,7 +219,7 @@ public class Query {
      * @param groupname of the group being created
      * @return true if the groupName exists, false otherwise
      */
-    public boolean checkGroupExists(String groupname){
+    public boolean checkGroupExists(String groupname) {
         try {
             groupname =  groupname.toLowerCase();
             checkGroup.setString(1, groupname);
@@ -239,7 +239,7 @@ public class Query {
      * @param userName of the person wanting to create or add themselves to a group
      * @return true if the user is in a group
      */
-    public boolean isMemberInGroup(String userName){
+    public boolean isMemberInGroup(String userName) {
         try {
             searchUser.setString(1, userName);
             ResultSet rs = searchUser.executeQuery();
@@ -264,7 +264,7 @@ public class Query {
      * @param groupName of the group
      * @return true if the groupName was
      */
-    public boolean updateGroupName(String userName, String groupName){
+    public boolean updateGroupName(String userName, String groupName) {
         try {
             addMember.setString(1, groupName);
             addMember.setString(2, userName);
@@ -298,7 +298,7 @@ public class Query {
 
 
     public boolean addItem(String itemName, String userName, int shared, String category,
-                        int storage, Date expiration){
+                        int storage, Date expiration) {
         try {
             System.out.println(1);
             int itemID = getID() + 1;
@@ -322,38 +322,36 @@ public class Query {
         }
     }
 
-    public int getID(){
-        try{
+    public int getID() {
+        try {
             ResultSet rs = get_counter.executeQuery();
             while(rs.next()){
                 return rs.getInt(1);
             }
-        }catch(SQLException error){
+        } catch(SQLException error) {
             System.out.println(error);
-            return -1;
         }
         return -1;
     }
 
-    public boolean Update_ID(int id){
+    public boolean Update_ID(int id) {
         try {
             update_id.setInt(1, id);
             update_id.execute();
             return true;
-        } catch (SQLException error){
+        } catch (SQLException error) {
             error.printStackTrace();
             return false;
         }
     }
 
-    public boolean delete_item(int itemID){
+    public boolean delete_item(int itemID) {
         try {
             //We don't need to check if the user exists in the table since the request is coming straight from
             deleteItem.setInt(1, itemID);
             deleteItem.execute();
             return true;
-
-        } catch(SQLException error){
+        } catch(SQLException error) {
             System.out.println(error);
             return false;
         }
