@@ -47,6 +47,9 @@ public class Query {
     private static final String ADD_ITEM = "INSERT INTO INVENTORY VALUES (?,?,?,?,?,?,?)";
     private PreparedStatement addItem;
 
+    private static final String DELETE_ITEM = "DELETE FROM INVENTORY WHERE itemID = (?)";
+    private PreparedStatement deleteItem;
+
     private static final String GET_ID = "SELECT * FROM Counter";
     private PreparedStatement get_counter;
 
@@ -77,6 +80,7 @@ public class Query {
         // checkMember = conn.prepareStatement(CHECK_MEMBER);
         addMember =  conn.prepareStatement(ADD_MEMBER);
         addItem =  conn.prepareStatement(ADD_ITEM);
+        deleteItem = conn.prepareStatement(DELETE_ITEM);
         get_counter = conn.prepareStatement(GET_ID);
         update_id = conn.prepareStatement(UPDATE_ID);
     }
@@ -338,6 +342,19 @@ public class Query {
             return true;
         } catch (SQLException error){
             error.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean delete_item(int itemID){
+        try {
+            //We don't need to check if the user exists in the table since the request is coming straight from
+            deleteItem.setInt(1, itemID);
+            deleteItem.execute();
+            return true;
+
+        } catch(SQLException error){
+            System.out.println(error);
             return false;
         }
     }
