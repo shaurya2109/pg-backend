@@ -47,6 +47,12 @@ public class Query {
     private static final String ADD_ITEM = "INSERT INTO INVENTORY VALUES (?,?,?,?,?,?,?)";
     private PreparedStatement addItem;
 
+    private static final String GET_ID = "SELECT * FROM Counter";
+    private PreparedStatement get_counter;
+
+    private static final String UPDATE_ID = "UPDATE Counter set count = (?)";
+    private PreparedStatement update_id;
+
 
     //adds a member to a group
     //this can also be used when a user is removed from a group because we set their groupName back to ""
@@ -71,7 +77,8 @@ public class Query {
         // checkMember = conn.prepareStatement(CHECK_MEMBER);
         addMember =  conn.prepareStatement(ADD_MEMBER);
         addItem =  conn.prepareStatement(ADD_ITEM);
-
+        get_counter = conn.prepareStatement(GET_ID);
+        update_id = conn.prepareStatement(UPDATE_ID);
     }
 
     public Query() throws Exception {
@@ -257,7 +264,7 @@ public class Query {
         try {
             addMember.setString(1, groupName);
             addMember.setString(2, userName);
-            ResultSet rs = addMember.executeQuery();
+            addMember.execute();
             return true;
         } catch (SQLException error){
             error.printStackTrace();
@@ -286,21 +293,54 @@ public class Query {
 
 
 
-//    public void addItem(String itemName, String userName, int shared, String category, int quantity, String date, int storage, String groupName){
-//        try {
-//            //create a list
-//
-//            //for the # of items (quantity)
-//
-//            //generate a unique ID using the updating int in an array for the item name
-//
-//            return;
-//        } catch (SQLException error){
-//            return;
-//        }
-//    }
+    public boolean addItem(String itemName, String userName, int shared, String category,
+                        int storage, Date expiration){
+        try {
+            System.out.println(1);
+            int itemID = getID() + 1;
+            System.out.println(1);
+            addItem.setInt(1, itemID);
+            addItem.setString(2, itemName);
+            addItem.setString(3, userName);
+            addItem.setInt(4, shared);
+            addItem.setString(5, category);
+            addItem.setInt(6, storage);
+            addItem.setDate(7, expiration);
+            System.out.println(1);
+            addItem.execute();
+            System.out.println(1);
+            Update_ID(itemID);
+            System.out.println(1);
+            return true;
+        } catch (SQLException error){
+            System.out.println(error);
+            return false;
+        }
+    }
 
+    public int getID(){
+        try{
+            ResultSet rs = get_counter.executeQuery();
+            while(rs.next()){
+                return rs.getInt(1);
+            }
+        }catch(SQLException error){
+            System.out.println(error);
+            return -1;
+        }
+        return -1;
+    }
 
+    public boolean Update_ID(int id){
+        try {
+            update_id.setInt(1, id);
+            update_id.execute();
+            return true;
+        } catch (SQLException error){
+            error.printStackTrace();
+            return false;
+        }
+    }
 }
 
 /*

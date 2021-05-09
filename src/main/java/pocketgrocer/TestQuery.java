@@ -1,6 +1,9 @@
 package pocketgrocer;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.sql.SQLException;
 import org.junit.Test;
 
@@ -64,6 +67,26 @@ public class TestQuery {
         assertTrue(query.updateGroupName("sgsevier", "group4745-1"));
         query.closeConnection();
     }
+
+    @Test
+    public void check_get_id() throws Exception{
+        Query query = new Query();
+        query.prepareStatements();
+        assertEquals(10, query.getID());
+        query.closeConnection();
+    }
+
+    @Test
+    public void insertObject() throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
+        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+        query.addItem("tomato", "sgsevier", 0, "fridge", 0, sqlDate);
+        query.closeConnection();
+    }
+
+
 
     // checkLogin(String userName, String pass)
     // checkGroupExists(String groupname)
