@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.sql.SQLException;
+
+import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -82,11 +84,18 @@ public class TestQuery {
         query.prepareStatements();
         LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        query.addItem("tomato", "sgsevier", 0, "fridge", 0, sqlDate);
+        query.addItem("tomato", "sgsevier", 0, "fridge", 0, sqlDate, 2);
         query.closeConnection();
     }
 
-
+    @Test
+    public void getObjects() throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        JSONObject rs = query.get_user_items("sgsevier");
+        System.out.println(rs);
+        query.closeConnection();
+    }
 
     // checkLogin(String userName, String pass)
     // checkGroupExists(String groupname)

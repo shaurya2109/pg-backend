@@ -1,5 +1,10 @@
 package pocketgrocer;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -56,6 +61,9 @@ public class Query {
     private static final String UPDATE_ID = "UPDATE Counter set count = (?)";
     private PreparedStatement update_id;
 
+    private static final String GET_USER_ITEMS = "SELECT * FROM INVENTORY WHERE userName = (?)";
+    private PreparedStatement getUserItems;
+
 
     //adds a member to a group
     //this can also be used when a user is removed from a group because we set their groupName back to ""
@@ -83,6 +91,7 @@ public class Query {
         deleteItem = conn.prepareStatement(DELETE_ITEM);
         get_counter = conn.prepareStatement(GET_ID);
         update_id = conn.prepareStatement(UPDATE_ID);
+        getUserItems = conn.prepareStatement(GET_USER_ITEMS);
     }
 
     public Query() throws Exception {
@@ -298,28 +307,31 @@ public class Query {
 
 
     public boolean addItem(String itemName, String userName, int shared, String category,
-                        int storage, Date expiration){
-        try {
-            System.out.println(1);
-            int itemID = getID() + 1;
-            System.out.println(1);
-            addItem.setInt(1, itemID);
-            addItem.setString(2, itemName);
-            addItem.setString(3, userName);
-            addItem.setInt(4, shared);
-            addItem.setString(5, category);
-            addItem.setInt(6, storage);
-            addItem.setDate(7, expiration);
-            System.out.println(1);
-            addItem.execute();
-            System.out.println(1);
-            Update_ID(itemID);
-            System.out.println(1);
-            return true;
-        } catch (SQLException error){
-            System.out.println(error);
-            return false;
+                        int storage, Date expiration, int quantity){
+        for(int i = 0; i < quantity; i++){
+            try {
+                System.out.println(1);
+                int itemID = getID() + 1;
+                System.out.println(1);
+                addItem.setInt(1, itemID);
+                addItem.setString(2, itemName);
+                addItem.setString(3, userName);
+                addItem.setInt(4, shared);
+                addItem.setString(5, category);
+                addItem.setInt(6, storage);
+                addItem.setDate(7, expiration);
+                System.out.println(1);
+                addItem.execute();
+                System.out.println(1);
+                Update_ID(itemID);
+                System.out.println(1);
+                return true;
+            } catch (SQLException error){
+                System.out.println(error);
+                return false;
+            }
         }
+        return true;
     }
 
     public int getID(){
@@ -357,6 +369,30 @@ public class Query {
             System.out.println(error);
             return false;
         }
+    }
+
+    public JSONObject get_user_items(String userName)  throws SQLException {
+
+        getUserItems.setString(1, userName);
+        ResultSet rs = getUserItems.executeQuery();
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        int itemNums = 1;
+        while(rs.next()) {
+            JSONObject record = new JSONObject();
+            //Inserting key-value pairs into the json object
+            record.put("itemID", rs.getInt("itemID"));
+            record.put("itemName", rs.getString("itemName"));
+            record.put("userName", rs.getString("userName"));
+            record.put("shared", rs.getInt("shared"));
+            record.put("category", rs.getString("category"));
+            record.put("storage", rs.getInt("storage"));
+            record.put("expiration", rs.getDate("expiration"));
+            array.put(record);
+        }
+        jsonObject.put("Items", array);
+        return jsonObject;
     }
 }
 
