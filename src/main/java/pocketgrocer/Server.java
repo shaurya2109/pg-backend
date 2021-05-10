@@ -193,10 +193,10 @@ public class Server {
                     response.status(409);
                     return ("Username doesn't exist");
                 } else if (query.isMemberInGroup(username)) {
-                    response.status(400);
+                    response.status(428);
                     return ("User is already in a group");
                 } else if (!query.checkGroupExists(groupname)) {
-                    response.status(409);
+                    response.status(412);
                     return ("Group Name doesn't exist");
                 } else if (query.updateGroupName(username, groupname)) {
                     response.status(200);
@@ -221,10 +221,10 @@ public class Server {
                      response.status(409);
                      return ("Username doesn't exist");
                  } else if (query.isMemberInGroup(username)) {
-                     response.status(400);
+                     response.status(428);
                      return ("User is already in a group");
                  } else if (query.checkGroupExists(groupname)) {
-                     response.status(400);
+                     response.status(412);
                      return ("Group Name already exists");
                  } else if (query.updateGroupName(username, groupname)) {
                      response.status(200);
