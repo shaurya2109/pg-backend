@@ -243,13 +243,13 @@ public class Server {
             JSONObject items = new JSONObject(request.body());
             String itemName = items.getString("itemName");
             String userName = items.getString("userName");
-            int shared = items.getInt("shared");
+            int shared = Integer.parseInt(items.getString("shared"));
             String category = items.getString("category");
-            int storage = items.getInt("storage");
+            int storage = Integer.parseInt(items.getString("storage"));
             //I couldn't get a date object from the Json parameter, so for now it will be a string YYYY-MM-DD
             //and in Query.java it gets converted to a sql date
             String expiration = items.getString("expiration");
-            int quantity = items.getInt("quantity");
+            int quantity = Integer.parseInt(items.getString("quantity"));
 
             try {
                 if (!query.userExists(userName)) {
