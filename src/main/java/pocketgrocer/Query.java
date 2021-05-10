@@ -268,7 +268,8 @@ public class Query {
     }
 
     /**
-     * Updates the groupName of a member
+     * Updates the groupName of a member. The two possible updates are either adding them to a group,
+     * or removing them from a group. If a member is being removed, a blank "" is put in place of their groupName
      * @param userName of the person being added
      * @param groupName of the group
      * @return true if the groupName was
