@@ -432,7 +432,7 @@ public class Query {
      * @param currVal the current shared indicator value for the item
      * @return true if the item shared indicator was successfully changed
      */
-    public boolean changeShared(Integer itemID, Integer currVal){
+    public boolean changeShared(int itemID, int currVal){
         try {
             int newVal = 0;
             if(currVal == 0){
