@@ -322,9 +322,9 @@ public class Query {
         Date expirationDate = Date.valueOf(expiration);
         for(int i = 0; i < quantity; i++){
             try {
-                System.out.println(1);
+//                System.out.println(1);
                 int itemID = getID() + 1;
-                System.out.println(1);
+//                System.out.println(1);
                 addItem.setInt(1, itemID);
                 addItem.setString(2, itemName);
                 addItem.setString(3, userName);
@@ -332,11 +332,11 @@ public class Query {
                 addItem.setString(5, category);
                 addItem.setInt(6, storage);
                 addItem.setDate(7, expirationDate);
-                System.out.println(1);
+//                System.out.println(1);
                 addItem.executeQuery();
-                System.out.println(1);
+//                System.out.println(1);
                 Update_ID(itemID);
-                System.out.println(1);
+//                System.out.println(1);
                 return true;
             } catch (SQLException error){
                 System.out.println(error);
