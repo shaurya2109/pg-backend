@@ -243,6 +243,7 @@ public class Server {
             JSONObject items = new JSONObject(request.body());
             String itemName = items.getString("itemName");
             String userName = items.getString("userName");
+            //the params get passed in as strings, so they need to be parsed as an int
             int shared = Integer.parseInt(items.getString("shared"));
             String category = items.getString("category");
             int storage = Integer.parseInt(items.getString("storage"));
