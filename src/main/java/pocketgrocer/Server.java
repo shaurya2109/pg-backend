@@ -269,8 +269,8 @@ public class Server {
         });
 
         get("/items/get", (request, response) -> {
-            JSONObject items = new JSONObject(request.body());
-            String userName = items.getString("userName");
+            JSONObject user = new JSONObject(request.body());
+            String userName = user.getString("userName");
 
             try {
                 if (!query.userExists(userName)) {
@@ -280,6 +280,27 @@ public class Server {
                     JSONObject itemsList = query.get_user_items(userName);
                     response.status(200);
                     return itemsList;
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
+        post("/items/delete", (request, response) -> {
+            JSONObject item = new JSONObject(request.body());
+            Integer itemID = item.getInt("itemID");
+
+            try {
+                if (!query.checkItem(itemID)) {
+                    response.status(409);
+                    return ("Item doesn't exist");
+                } else if (query.delete_item(itemID)) {
+                    response.status(200);
+                    return ("Successfully deleted item");
+                } else {
+                    response.status(400);
+                    return ("Failed deleting item");
                 }
             } catch (Exception e) {
                 response.status(400);

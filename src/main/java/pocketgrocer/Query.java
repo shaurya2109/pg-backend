@@ -66,6 +66,9 @@ public class Query {
     private static final String GET_USER_ITEMS = "SELECT * FROM INVENTORY WHERE userName = (?)";
     private PreparedStatement getUserItems;
 
+    private static final String CHECK_ITEM = "SELECT COUNT(*) FROM INVENTORY WHERE itemID = (?)";
+    private PreparedStatement checkItem;
+
 
     //adds a member to a group
     //this can also be used when a user is removed from a group because we set their groupName back to ""
@@ -94,6 +97,7 @@ public class Query {
         get_counter = conn.prepareStatement(GET_ID);
         update_id = conn.prepareStatement(UPDATE_ID);
         getUserItems = conn.prepareStatement(GET_USER_ITEMS);
+        checkItem = conn.prepareStatement(CHECK_ITEM);
     }
 
     public Query() throws Exception {
@@ -396,6 +400,25 @@ public class Query {
         }
         jsonObject.put("Items", array);
         return jsonObject;
+    }
+
+    /**
+     * Checks whether or not this item exists
+     * @param itemID the unique item identifier
+     * @return true if the item exists, false otherwise
+     */
+    public boolean checkItem(Integer itemID){
+        try {
+            checkItem.setInt(1, itemID);
+            ResultSet rs = checkItem.executeQuery();
+            int num = 0;
+            while (rs.next()) {
+                num = rs.getInt(1);
+            }
+            return num == 1;
+        } catch (SQLException error){
+            return false;
+        }
     }
 }
 
