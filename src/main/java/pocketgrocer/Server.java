@@ -243,13 +243,13 @@ public class Server {
             JSONObject items = new JSONObject(request.body());
             String itemName = items.getString("itemName");
             String userName = items.getString("userName");
-            Integer shared = items.getInt("shared");
+            int shared = items.getInt("shared");
             String category = items.getString("category");
-            Integer storage = items.getInt("storage");
+            int storage = items.getInt("storage");
             //I couldn't get a date object from the Json parameter, so for now it will be a string YYYY-MM-DD
             //and in Query.java it gets converted to a sql date
             String expiration = items.getString("expiration");
-            Integer quantity = items.getInt("quantity");
+            int quantity = items.getInt("quantity");
 
             try {
                 if (!query.userExists(userName)) {
@@ -289,7 +289,7 @@ public class Server {
 
         post("/items/delete", (request, response) -> {
             JSONObject item = new JSONObject(request.body());
-            Integer itemID = item.getInt("itemID");
+            int itemID = item.getInt("itemID");
 
             try {
                 if (!query.checkItem(itemID)) {
@@ -310,8 +310,8 @@ public class Server {
 
         post("/items/shared", (request, response) -> {
             JSONObject item = new JSONObject(request.body());
-            Integer itemID = item.getInt("itemID");
-            Integer shared = item.getInt("shared");
+            int itemID = item.getInt("itemID");
+            int shared = item.getInt("shared");
 
             try {
                 if (!query.checkItem(itemID)) {
