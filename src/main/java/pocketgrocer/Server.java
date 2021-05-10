@@ -278,6 +278,7 @@ public class Server {
                     return ("Username doesn't exist");
                 } else {
                     JSONObject itemsList = query.get_user_items(userName);
+                    response.status(200);
                     return itemsList;
                 }
             } catch (Exception e) {
