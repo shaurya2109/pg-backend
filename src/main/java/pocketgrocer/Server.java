@@ -289,7 +289,7 @@ public class Server {
 
         post("/items/delete", (request, response) -> {
             JSONObject item = new JSONObject(request.body());
-            int itemID = item.getInt("itemID");
+            int itemID = Integer.parseInt(item.getString("itemID"));
 
             try {
                 if (!query.checkItem(itemID)) {
@@ -310,8 +310,8 @@ public class Server {
 
         post("/items/shared", (request, response) -> {
             JSONObject item = new JSONObject(request.body());
-            int itemID = item.getInt("itemID");
-            int shared = item.getInt("shared");
+            int itemID = Integer.parseInt(item.getString("itemID"));
+            int shared = Integer.parseInt(item.getString("shared"));
 
             try {
                 if (!query.checkItem(itemID)) {
