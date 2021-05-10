@@ -307,5 +307,27 @@ public class Server {
                 return (e);
             }
         });
+
+        post("/items/shared", (request, response) -> {
+            JSONObject item = new JSONObject(request.body());
+            Integer itemID = item.getInt("itemID");
+            Integer shared = item.getInt("shared");
+
+            try {
+                if (!query.checkItem(itemID)) {
+                    response.status(409);
+                    return ("Item doesn't exist");
+                } else if (query.changeShared(itemID, shared)) {
+                    response.status(200);
+                    return ("Successfully changed shared value");
+                } else {
+                    response.status(400);
+                    return ("Failed changing shared value");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
     }
 }

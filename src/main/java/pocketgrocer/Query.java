@@ -69,6 +69,10 @@ public class Query {
     private static final String CHECK_ITEM = "SELECT COUNT(*) FROM INVENTORY WHERE itemID = (?)";
     private PreparedStatement checkItem;
 
+    //Update [dbo].[INVENTORY] set shared = 0 WHERE itemID = 3;
+    private static final String CHANGE_SHARED = "UPDATE INVENTORY SET shared = (?) WHERE itemID = (?)";
+    private PreparedStatement changeShared;
+
 
     //adds a member to a group
     //this can also be used when a user is removed from a group because we set their groupName back to ""
@@ -98,6 +102,7 @@ public class Query {
         update_id = conn.prepareStatement(UPDATE_ID);
         getUserItems = conn.prepareStatement(GET_USER_ITEMS);
         checkItem = conn.prepareStatement(CHECK_ITEM);
+        changeShared = conn.prepareStatement(CHANGE_SHARED);
     }
 
     public Query() throws Exception {
@@ -328,7 +333,7 @@ public class Query {
                 addItem.setInt(6, storage);
                 addItem.setDate(7, expirationDate);
                 System.out.println(1);
-                addItem.execute();
+                addItem.executeQuery();
                 System.out.println(1);
                 Update_ID(itemID);
                 System.out.println(1);
@@ -357,7 +362,7 @@ public class Query {
     public boolean Update_ID(int id){
         try {
             update_id.setInt(1, id);
-            update_id.execute();
+            update_id.executeQuery();
             return true;
         } catch (SQLException error){
             error.printStackTrace();
@@ -369,7 +374,7 @@ public class Query {
         try {
             //We don't need to check if the user exists in the table since the request is coming straight from
             deleteItem.setInt(1, itemID);
-            deleteItem.execute();
+            deleteItem.executeQuery();
             return true;
 
         } catch(SQLException error){
@@ -416,6 +421,27 @@ public class Query {
                 num = rs.getInt(1);
             }
             return num == 1;
+        } catch (SQLException error){
+            return false;
+        }
+    }
+
+    /**
+     * Changes the shared value of an item
+     * @param itemID the unique item identifier
+     * @param currVal the current shared indicator value for the item
+     * @return true if the item shared indicator was successfully changed
+     */
+    public boolean changeShared(Integer itemID, Integer currVal){
+        try {
+            int newVal = 0;
+            if(currVal == 0){
+                newVal = 1;
+            }
+            changeShared.setInt(1, newVal);
+            changeShared.setInt(2, itemID);
+            changeShared.executeQuery();
+            return true;
         } catch (SQLException error){
             return false;
         }
