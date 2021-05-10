@@ -5,6 +5,8 @@ import static spark.Spark.*;
 import org.json.JSONObject;
 import spark.Filter;
 
+import java.util.Date;
+
 /*
 409 - conflict
 400 - error
@@ -236,5 +238,52 @@ public class Server {
                  return (e);
              }
          });
+
+        post("/items/add", (request, response) -> {
+            JSONObject items = new JSONObject(request.body());
+            String itemName = items.getString("itemName");
+            String userName = items.getString("userName");
+            Integer shared = items.getInt("shared");
+            String category = items.getString("category");
+            Integer storage = items.getInt("storage");
+            //I couldn't get a date object from the Json parameter, so for now it will be a string YYYY-MM-DD
+            //and in Query.java it gets converted to a sql date
+            String expiration = items.getString("expiration");
+            Integer quantity = items.getInt("quantity");
+
+            try {
+                if (!query.userExists(userName)) {
+                    response.status(409);
+                    return ("Username doesn't exist");
+                }  else if (query.addItem(itemName, userName, shared, category, storage, expiration,quantity )) {
+                    response.status(200);
+                    return ("Successfully added item(s) to the inventory");
+                } else {
+                    response.status(400);
+                    return ("Failed adding item(s)");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
+        get("/items/get", (request, response) -> {
+            JSONObject items = new JSONObject(request.body());
+            String userName = items.getString("userName");
+
+            try {
+                if (!query.userExists(userName)) {
+                    response.status(409);
+                    return ("Username doesn't exist");
+                } else {
+                    JSONObject itemsList = query.get_user_items(userName);
+                    return itemsList;
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
     }
 }

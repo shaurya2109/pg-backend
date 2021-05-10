@@ -11,6 +11,8 @@ import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 import java.security.*;
@@ -306,9 +308,9 @@ public class Query {
 
 
 
-
     public boolean addItem(String itemName, String userName, int shared, String category,
-                        int storage, Date expiration, int quantity){
+                        int storage, String expiration, int quantity) throws ParseException {
+        Date expirationDate = Date.valueOf(expiration);
         for(int i = 0; i < quantity; i++){
             try {
                 System.out.println(1);
@@ -320,7 +322,7 @@ public class Query {
                 addItem.setInt(4, shared);
                 addItem.setString(5, category);
                 addItem.setInt(6, storage);
-                addItem.setDate(7, expiration);
+                addItem.setDate(7, expirationDate);
                 System.out.println(1);
                 addItem.execute();
                 System.out.println(1);
