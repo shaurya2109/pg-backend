@@ -37,7 +37,7 @@ public class Server {
         });
 
         // check if user exists
-        get("/users/exists", (request, response) -> {
+        post("/users/exists", (request, response) -> {
             try {
                 JSONObject user = new JSONObject(request.body());
                 String username = user.getString("userName");
@@ -98,7 +98,7 @@ public class Server {
         });
 
         // login user
-        get("/users/login", (request, response) -> {
+        post("/users/login", (request, response) -> {
             try {
                 JSONObject login = new JSONObject(request.body());
                 String username = login.getString("userName");
@@ -119,7 +119,7 @@ public class Server {
             }
         });
 
-        get("/users/ingroup", (request, response) -> {
+        post("/users/ingroup", (request, response) -> {
             JSONObject user = new JSONObject(request.body());
             String username = user.getString("userName");
 
@@ -140,7 +140,7 @@ public class Server {
             }
         });
 
-        get("/groups/exists", (request, response) -> {
+        post("/groups/exists", (request, response) -> {
             JSONObject group = new JSONObject(request.body());
             String groupname = group.getString("groupName");
 
@@ -268,7 +268,7 @@ public class Server {
             }
         });
 
-        get("/items/get", (request, response) -> {
+        post("/items/get", (request, response) -> {
             JSONObject user = new JSONObject(request.body());
             String userName = user.getString("userName");
 

@@ -78,15 +78,16 @@ public class TestQuery {
         query.closeConnection();
     }
 
-//    @Test
-//    public void insertObject() throws Exception {
-//        Query query = new Query();
-//        query.prepareStatements();
+    @Test
+    public void insertObject() throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
 //        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
 //        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-//        query.addItem("tomato", "sgsevier", 0, "fridge", 0, sqlDate, 2);
-//        query.closeConnection();
-//    }
+        String date = "2021-05-10";
+        query.addItem("tomato", "sgsevier", 0, "fridge", 0, date, 2);
+        query.closeConnection();
+    }
 
     @Test
     public void getObjects() throws Exception {
