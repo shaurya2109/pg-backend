@@ -22,6 +22,7 @@ public class TestQuery {
         Query query = new Query();
         query.prepareStatements();
         assertTrue(query.userExists("sgsevier"));
+        assertTrue(query.userExists("cooper"));
         assertFalse(query.userExists("sgsevier1111111"));
         query.closeConnection();
     }
@@ -82,9 +83,10 @@ public class TestQuery {
     public void insertObject() throws Exception {
         Query query = new Query();
         query.prepareStatements();
-        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
-        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        query.addItem("tomato", "sgsevier", 0, "fridge", 0, sqlDate, 2);
+//        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
+//        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+        String date = "2021-05-10";
+        query.addItem("bagel", "sgsevier", 0, "pantry", 0, date, 2);
         query.closeConnection();
     }
 

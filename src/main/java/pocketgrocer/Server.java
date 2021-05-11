@@ -5,6 +5,8 @@ import static spark.Spark.*;
 import org.json.JSONObject;
 import spark.Filter;
 
+import java.util.Date;
+
 /*
 409 - conflict
 400 - error
@@ -35,7 +37,7 @@ public class Server {
         });
 
         // check if user exists
-        get("/users/exists", (request, response) -> {
+        post("/users/exists", (request, response) -> {
             try {
                 JSONObject user = new JSONObject(request.body());
                 String username = user.getString("userName");
@@ -96,7 +98,7 @@ public class Server {
         });
 
         // login user
-        get("/users/login", (request, response) -> {
+        post("/users/login", (request, response) -> {
             try {
                 JSONObject login = new JSONObject(request.body());
                 String username = login.getString("userName");
@@ -117,7 +119,7 @@ public class Server {
             }
         });
 
-        get("/users/ingroup", (request, response) -> {
+        post("/users/ingroup", (request, response) -> {
             JSONObject user = new JSONObject(request.body());
             String username = user.getString("userName");
 
@@ -138,7 +140,7 @@ public class Server {
             }
         });
 
-        get("/groups/exists", (request, response) -> {
+        post("/groups/exists", (request, response) -> {
             JSONObject group = new JSONObject(request.body());
             String groupname = group.getString("groupName");
 
@@ -191,10 +193,10 @@ public class Server {
                     response.status(409);
                     return ("Username doesn't exist");
                 } else if (query.isMemberInGroup(username)) {
-                    response.status(400);
+                    response.status(428);
                     return ("User is already in a group");
                 } else if (!query.checkGroupExists(groupname)) {
-                    response.status(409);
+                    response.status(412);
                     return ("Group Name doesn't exist");
                 } else if (query.updateGroupName(username, groupname)) {
                     response.status(200);
@@ -219,10 +221,10 @@ public class Server {
                      response.status(409);
                      return ("Username doesn't exist");
                  } else if (query.isMemberInGroup(username)) {
-                     response.status(400);
+                     response.status(428);
                      return ("User is already in a group");
                  } else if (query.checkGroupExists(groupname)) {
-                     response.status(400);
+                     response.status(412);
                      return ("Group Name already exists");
                  } else if (query.updateGroupName(username, groupname)) {
                      response.status(200);
@@ -236,5 +238,97 @@ public class Server {
                  return (e);
              }
          });
+
+        post("/items/add", (request, response) -> {
+            JSONObject items = new JSONObject(request.body());
+            String itemName = items.getString("itemName");
+            String userName = items.getString("userName");
+            //the params get passed in as strings, so they need to be parsed as an int
+            int shared = Integer.parseInt(items.getString("shared"));
+            String category = items.getString("category");
+            int storage = Integer.parseInt(items.getString("storage"));
+            //I couldn't get a date object from the Json parameter, so for now it will be a string YYYY-MM-DD
+            //and in Query.java it gets converted to a sql date
+            String expiration = items.getString("expiration");
+            int quantity = Integer.parseInt(items.getString("quantity"));
+
+            try {
+                if (!query.userExists(userName)) {
+                    response.status(409);
+                    return ("Username doesn't exist");
+                }  else if (query.addItem(itemName, userName, shared, category, storage, expiration,quantity )) {
+                    response.status(200);
+                    return ("Successfully added item(s) to the inventory");
+                } else {
+                    response.status(400);
+                    return ("Failed adding item(s)");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
+        post("/items/get", (request, response) -> {
+            JSONObject user = new JSONObject(request.body());
+            String userName = user.getString("userName");
+
+            try {
+                if (!query.userExists(userName)) {
+                    response.status(409);
+                    return ("Username doesn't exist");
+                } else {
+                    JSONObject itemsList = query.get_user_items(userName);
+                    response.status(200);
+                    return itemsList;
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
+        post("/items/delete", (request, response) -> {
+            JSONObject item = new JSONObject(request.body());
+            int itemID = Integer.parseInt(item.getString("itemID"));
+
+            try {
+                if (!query.checkItem(itemID)) {
+                    response.status(409);
+                    return ("Item doesn't exist");
+                } else if (query.delete_item(itemID)) {
+                    response.status(200);
+                    return ("Successfully deleted item");
+                } else {
+                    response.status(400);
+                    return ("Failed deleting item");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
+        post("/items/shared", (request, response) -> {
+            JSONObject item = new JSONObject(request.body());
+            int itemID = Integer.parseInt(item.getString("itemID"));
+            int shared = Integer.parseInt(item.getString("shared"));
+
+            try {
+                if (!query.checkItem(itemID)) {
+                    response.status(409);
+                    return ("Item doesn't exist");
+                } else if (query.changeShared(itemID, shared)) {
+                    response.status(200);
+                    return ("Successfully changed shared value");
+                } else {
+                    response.status(400);
+                    return ("Failed changing shared value");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
     }
 }

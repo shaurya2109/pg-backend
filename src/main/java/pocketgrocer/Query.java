@@ -11,6 +11,8 @@ import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 import java.security.*;
@@ -64,6 +66,13 @@ public class Query {
     private static final String GET_USER_ITEMS = "SELECT * FROM INVENTORY WHERE userName = (?)";
     private PreparedStatement getUserItems;
 
+    private static final String CHECK_ITEM = "SELECT COUNT(*) FROM INVENTORY WHERE itemID = (?)";
+    private PreparedStatement checkItem;
+
+    //Update [dbo].[INVENTORY] set shared = 0 WHERE itemID = 3;
+    private static final String CHANGE_SHARED = "UPDATE INVENTORY SET shared = (?) WHERE itemID = (?)";
+    private PreparedStatement changeShared;
+
 
     //adds a member to a group
     //this can also be used when a user is removed from a group because we set their groupName back to ""
@@ -92,6 +101,8 @@ public class Query {
         get_counter = conn.prepareStatement(GET_ID);
         update_id = conn.prepareStatement(UPDATE_ID);
         getUserItems = conn.prepareStatement(GET_USER_ITEMS);
+        checkItem = conn.prepareStatement(CHECK_ITEM);
+        changeShared = conn.prepareStatement(CHANGE_SHARED);
     }
 
     public Query() throws Exception {
@@ -268,7 +279,8 @@ public class Query {
     }
 
     /**
-     * Updates the groupName of a member
+     * Updates the groupName of a member. The two possible updates are either adding them to a group,
+     * or removing them from a group. If a member is being removed, a blank "" is put in place of their groupName
      * @param userName of the person being added
      * @param groupName of the group
      * @return true if the groupName was
@@ -305,26 +317,26 @@ public class Query {
 
 
 
-
     public boolean addItem(String itemName, String userName, int shared, String category,
-                        int storage, Date expiration, int quantity){
+                        int storage, String expiration, int quantity) throws ParseException {
+        Date expirationDate = Date.valueOf(expiration);
         for(int i = 0; i < quantity; i++){
             try {
-                System.out.println(1);
+//                System.out.println(1);
                 int itemID = getID() + 1;
-                System.out.println(1);
+//                System.out.println(1);
                 addItem.setInt(1, itemID);
                 addItem.setString(2, itemName);
                 addItem.setString(3, userName);
                 addItem.setInt(4, shared);
                 addItem.setString(5, category);
                 addItem.setInt(6, storage);
-                addItem.setDate(7, expiration);
-                System.out.println(1);
+                addItem.setDate(7, expirationDate);
+//                System.out.println(1);
                 addItem.execute();
-                System.out.println(1);
+//                System.out.println(1);
                 Update_ID(itemID);
-                System.out.println(1);
+//                System.out.println(1);
                 return true;
             } catch (SQLException error){
                 System.out.println(error);
@@ -393,6 +405,46 @@ public class Query {
         }
         jsonObject.put("Items", array);
         return jsonObject;
+    }
+
+    /**
+     * Checks whether or not this item exists
+     * @param itemID the unique item identifier
+     * @return true if the item exists, false otherwise
+     */
+    public boolean checkItem(Integer itemID){
+        try {
+            checkItem.setInt(1, itemID);
+            ResultSet rs = checkItem.executeQuery();
+            int num = 0;
+            while (rs.next()) {
+                num = rs.getInt(1);
+            }
+            return num == 1;
+        } catch (SQLException error){
+            return false;
+        }
+    }
+
+    /**
+     * Changes the shared value of an item
+     * @param itemID the unique item identifier
+     * @param currVal the current shared indicator value for the item
+     * @return true if the item shared indicator was successfully changed
+     */
+    public boolean changeShared(int itemID, int currVal){
+        try {
+            int newVal = 0;
+            if(currVal == 0){
+                newVal = 1;
+            }
+            changeShared.setInt(1, newVal);
+            changeShared.setInt(2, itemID);
+            changeShared.execute();
+            return true;
+        } catch (SQLException error){
+            return false;
+        }
     }
 }
 
