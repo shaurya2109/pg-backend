@@ -6,6 +6,7 @@
 
     <groupId>com.pocketgrocer.app</groupId>
     <artifactId>pocketgrocer</artifactId>
+    <packaging>jar</packaging>
     <version>1.0</version>
 
     <properties>
@@ -82,36 +83,11 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>Server</mainClass>
+                            <mainClass>pocketgrocer.Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>pocketgrocer</id>
-            <url>https://pkgs.dev.azure.com/shauryaj/pocketgrocer/_packaging/pocketgrocer/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <distributionManagement>
-        <repository>
-            <id>pocketgrocer</id>
-            <url>https://pkgs.dev.azure.com/shauryaj/pocketgrocer/_packaging/pocketgrocer/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </distributionManagement>
 </project>

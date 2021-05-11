@@ -1,23 +1,13 @@
 package pocketgrocer;
 
-// import com.google.gson.Gson;
 import static spark.Spark.*;
 import org.json.JSONObject;
 import spark.Filter;
-
-import java.util.Date;
-
-/*
-409 - conflict
-400 - error
-200 - success
-*/
 
 public class Server {
     public static void main(String[] args) throws Exception {
         Query query = new Query();
         query.prepareStatements();
-        // port(8080);
 
         after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
@@ -25,6 +15,7 @@ public class Server {
         });
 
         // Spark HTTP Endpoints
+        get("/", (req, res) -> "Welcome to Pocket Grocer");
 
         // Hello World API Test
         get("/hello", (req, res) -> "Hello World");
