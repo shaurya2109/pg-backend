@@ -54,6 +54,7 @@
     </dependencies>
 
     <build>
+        <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -86,21 +87,31 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>3.0.4</version>
-                <configuration>
-                    <jdkVersion>1.8</jdkVersion>
-                    <!-- Use your own application name -->
-                    <appName>pocketgrocer</appName>
-                    <processTypes>
-                        <!-- Tell Heroku how to launch your application -->
-                        <!-- You might have to remove the ./ in front   -->
-                        <web>java -jar ./target/pocketgrocer-1.0-jar-with-dependencies</web>
-                    </processTypes>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>pocketgrocer</id>
+            <url>https://pkgs.dev.azure.com/shauryaj/pocketgrocer/_packaging/pocketgrocer/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>pocketgrocer</id>
+            <url>https://pkgs.dev.azure.com/shauryaj/pocketgrocer/_packaging/pocketgrocer/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </distributionManagement>
 </project>
