@@ -333,7 +333,7 @@ public class Query {
                 addItem.setInt(6, storage);
                 addItem.setDate(7, expirationDate);
 //                System.out.println(1);
-                addItem.executeQuery();
+                addItem.execute();
 //                System.out.println(1);
                 Update_ID(itemID);
 //                System.out.println(1);
@@ -362,7 +362,7 @@ public class Query {
     public boolean Update_ID(int id){
         try {
             update_id.setInt(1, id);
-            update_id.executeQuery();
+            update_id.execute();
             return true;
         } catch (SQLException error){
             error.printStackTrace();
@@ -374,7 +374,7 @@ public class Query {
         try {
             //We don't need to check if the user exists in the table since the request is coming straight from
             deleteItem.setInt(1, itemID);
-            deleteItem.executeQuery();
+            deleteItem.execute();
             return true;
 
         } catch(SQLException error){
@@ -440,7 +440,7 @@ public class Query {
             }
             changeShared.setInt(1, newVal);
             changeShared.setInt(2, itemID);
-            changeShared.executeQuery();
+            changeShared.execute();
             return true;
         } catch (SQLException error){
             return false;
