@@ -5,10 +5,10 @@ This contains the mavern project for the Pocket Grocer application. The project 
 
 ##Important files - 
 1. Server.java - contains the method definition of all the API endpoints.
-2. Query.java - contains the Prepared Statements and the function definitions of all the methods being used in the Server.java file. 
+2. Query.java - contains the Prepared statements, and the function definitions of all the methods being used in the Server.java file. 
 
 ## Running the project - 
-The project can be started using the folloing terminal command from the directory location of the pg-backend folder - 
+The project can be started using the following terminal command from the directory location of the pg-backend folder - 
 
 ```java -jar ./target/pocketgrocer-1.0-jar-with-dependencies.jar```
 
