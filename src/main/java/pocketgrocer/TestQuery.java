@@ -14,7 +14,6 @@ public class TestQuery {
         query.closeConnection();
     }
 
-
     @Test
     public void checkUserExists() throws Exception {
         Query query = new Query();
