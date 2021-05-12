@@ -401,7 +401,7 @@ public class Query {
 //                System.out.println(1);
                 addItem.execute();
 //                System.out.println(1);
-                Update_ID(itemID);
+                UpdateID(itemID);
 //                System.out.println(1);
                 return true;
             } catch (SQLException error){
@@ -425,7 +425,7 @@ public class Query {
         return -1;
     }
 
-    public boolean Update_ID(int id){
+    public boolean UpdateID(int id){
         try {
             update_id.setInt(1, id);
             update_id.execute();
@@ -436,7 +436,7 @@ public class Query {
         }
     }
 
-    public boolean delete_item(int itemID){
+    public boolean deleteItem(int itemID){
         try {
             //We don't need to check if the user exists in the table since the request is coming straight from
             deleteItem.setInt(1, itemID);
@@ -449,7 +449,7 @@ public class Query {
         }
     }
 
-    public JSONObject get_user_items(String userName)  throws SQLException {
+    public JSONObject getUserItems (String userName) throws SQLException {
 
         getUserItems.setString(1, userName);
         ResultSet rs = getUserItems.executeQuery();
