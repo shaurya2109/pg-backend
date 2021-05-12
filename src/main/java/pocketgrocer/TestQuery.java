@@ -1,21 +1,19 @@
 package pocketgrocer;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.sql.SQLException;
-
 import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class TestQuery {
-    String username = "sgsevier";
-    String firstName = "Sophia";
-    String lastName = "Sevier";
-    String password = "passwordHi";
+    @Test
+    public void testGetItems() throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        System.out.println(query.getUserItems("cooper").toString());
+        query.closeConnection();
+    }
+
 
     @Test
     public void checkUserExists() throws Exception {
@@ -94,7 +92,7 @@ public class TestQuery {
     public void getObjects() throws Exception {
         Query query = new Query();
         query.prepareStatements();
-        JSONObject rs = query.get_user_items("sgsevier");
+        JSONObject rs = query.getUserItems("sgsevier");
         System.out.println(rs);
         query.closeConnection();
     }
