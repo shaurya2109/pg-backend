@@ -337,7 +337,7 @@ public class Query {
         ResultSet result = getGroupMembers.executeQuery();
 
         while(result.next()) {
-            groupMembers.add(result.getString("groupName"));
+            groupMembers.add(result.getString("userName"));
         }
 
         // returning the results -

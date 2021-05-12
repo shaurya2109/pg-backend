@@ -8,6 +8,7 @@ public class Server {
     public static void main(String[] args) throws Exception {
         Query query = new Query();
         query.prepareStatements();
+        // port(8080); // default: 4567
 
         after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
@@ -20,14 +21,14 @@ public class Server {
         // Hello World API Test
         get("/hello", (req, res) -> "Hello World");
 
-        // stop
+        // Stops the Server
         get("/stop", (request, response) -> {
             query.closeConnection();
             stop();
             return "Server Stopped";
         });
 
-        // check if user exists
+        // Checks if a user exists
         post("/users/exists", (request, response) -> {
             try {
                 JSONObject user = new JSONObject(request.body());
@@ -124,6 +125,30 @@ public class Server {
                 } else {
                     response.status(400);
                     return ("User " + username + " is not in a group");
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
+        // get user group and group member data
+        post("/users/groupdata", (request, response) -> {
+            try {
+                JSONObject user = new JSONObject(request.body());
+                String username = user.getString("userName");
+
+                if (!query.userExists(username)) {
+                    response.status(409);
+                    return ("Username doesn't exist");
+                } else if (!query.isMemberInGroup(username)) {
+                    response.status(428);
+                    return ("User is not in any group");
+                } else {
+                    JSONObject groupDetails = query.groupNameAndGroupMates(username);
+                    response.status(200);
+                    response.type("application/json");
+                    return groupDetails.toString();
                 }
             } catch (Exception e) {
                 response.status(400);
@@ -269,9 +294,10 @@ public class Server {
                     response.status(409);
                     return ("Username doesn't exist");
                 } else {
-                    JSONObject itemsList = query.get_user_items(userName);
+                    JSONObject itemsList = query.getUserItems(userName);
                     response.status(200);
-                    return itemsList;
+                    response.type("application/json");
+                    return itemsList.toString();
                 }
             } catch (Exception e) {
                 response.status(400);
@@ -287,7 +313,7 @@ public class Server {
                 if (!query.checkItem(itemID)) {
                     response.status(409);
                     return ("Item doesn't exist");
-                } else if (query.delete_item(itemID)) {
+                } else if (query.deleteItem(itemID)) {
                     response.status(200);
                     return ("Successfully deleted item");
                 } else {
@@ -320,6 +346,30 @@ public class Server {
                 response.status(400);
                 return (e);
             }
+        });
+    }
+
+    private static void enableCORS(final String origin, final String methods, final String headers) {
+        options("/*", (request, response) -> {
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+
+            return "OK";
+        });
+
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", origin);
+            response.header("Access-Control-Request-Method", methods);
+            response.header("Access-Control-Allow-Headers", headers);
+            // Note: this may or may not be necessary in your particular application
+            response.type("application/json");
         });
     }
 }
