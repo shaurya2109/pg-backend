@@ -44,6 +44,12 @@ public class Query {
     private static final String CHECK_USER = "SELECT COUNT(*) FROM USERS WHERE userName = (?)";
     private PreparedStatement checkUser;
 
+    private static final String GET_GROUPNAME = "SELECT groupName FROM USERS WHERE userName = (?)";
+    private PreparedStatement getGroupName;
+
+    private static final String GET_GROUP_MEMBERS = "SELECT userName FROM USERS WHERE groupName = (?)";
+    private PreparedStatement getGroupMembers;
+
 
     private static final String CHECK_GROUP = "SELECT COUNT(*) FROM USERS WHERE groupName = (?)";
     private PreparedStatement checkGroup;
@@ -103,6 +109,8 @@ public class Query {
         getUserItems = conn.prepareStatement(GET_USER_ITEMS);
         checkItem = conn.prepareStatement(CHECK_ITEM);
         changeShared = conn.prepareStatement(CHANGE_SHARED);
+        getGroupName = conn.prepareStatement(GET_GROUPNAME);
+        getGroupMembers = conn.prepareStatement(GET_GROUP_MEMBERS);
     }
 
     public Query() throws Exception {
@@ -234,6 +242,27 @@ public class Query {
         return false;
     }
 
+    // method that returns all the information about a user like name, username, groupname, etc
+    public JSONObject getUserDetails (String userName)  throws SQLException{
+        searchUser.setString(1, userName);
+        ResultSet userSet = searchUser.executeQuery();
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+
+        while(userSet.next()){
+            JSONObject record = new JSONObject();
+            record.put("userName", userSet.getString("userName"));
+            record.put("firstName", userSet.getString("firstName"));
+            record.put("lastName", userSet.getString("lastName"));
+            record.put("groupName", userSet.getString("groupName"));
+            array.put(record);
+        }
+
+        jsonObject.put("UserInfo", array);
+        return jsonObject;
+    }
+
     /**
      * Checks whether or not this groupname already exists
      * @param groupname of the group being created
@@ -278,6 +307,48 @@ public class Query {
         }
     }
 
+    public JSONObject groupNameAndGroupmates (String userName)  throws SQLException {
+        List<String> groupMembers = new ArrayList<>();
+        String groupName = "";
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+
+        if(!isMemberInGroup(userName)){
+            JSONObject record = new JSONObject();
+            record.put("GroupName", groupName);
+            record.put("groupMembers", groupMembers);
+            array.put(record);
+            jsonObject.put("Result", array);
+            return jsonObject;
+        }
+
+        // now get the groupname of the current user -
+
+        getGroupName.setString(1, userName);
+        ResultSet rs = getUserItems.executeQuery();
+
+        while(rs.next()) {
+            groupName = rs.getString("groupName");
+        }
+
+        // getting all the members now -
+        getGroupMembers.setString(1, groupName);
+        ResultSet result = getUserItems.executeQuery();
+
+        while(result.next()) {
+            groupMembers.add(result.getString("groupName"));
+        }
+
+        // returning the results -
+        JSONObject record = new JSONObject();
+        record.put("GroupName", groupName);
+        record.put("groupMembers", groupMembers);
+        array.put(record);
+        jsonObject.put("Result", array);
+        return jsonObject;
+    }
+
     /**
      * Updates the groupName of a member. The two possible updates are either adding them to a group,
      * or removing them from a group. If a member is being removed, a blank "" is put in place of their groupName
@@ -309,14 +380,9 @@ public class Query {
 //     * @param groupName
 //     * @return a list of lists of item entries
 //     */
-
-
     // get the group name for the person that the item is being added
     // counter variable in a table
     // auto increment implementation
-
-
-
     public boolean addItem(String itemName, String userName, int shared, String category,
                         int storage, String expiration, int quantity) throws ParseException {
         Date expirationDate = Date.valueOf(expiration);
