@@ -307,7 +307,7 @@ public class Query {
         }
     }
 
-    public JSONObject groupNameAndGroupmates (String userName)  throws SQLException {
+    public JSONObject groupNameAndGroupMates(String userName)  throws SQLException {
         List<String> groupMembers = new ArrayList<>();
         String groupName = "";
 
@@ -326,7 +326,7 @@ public class Query {
         // now get the groupname of the current user -
 
         getGroupName.setString(1, userName);
-        ResultSet rs = getUserItems.executeQuery();
+        ResultSet rs = getGroupName.executeQuery();
 
         while(rs.next()) {
             groupName = rs.getString("groupName");
@@ -334,7 +334,7 @@ public class Query {
 
         // getting all the members now -
         getGroupMembers.setString(1, groupName);
-        ResultSet result = getUserItems.executeQuery();
+        ResultSet result = getGroupMembers.executeQuery();
 
         while(result.next()) {
             groupMembers.add(result.getString("groupName"));

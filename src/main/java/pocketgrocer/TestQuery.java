@@ -7,6 +7,14 @@ import static org.junit.Assert.*;
 
 public class TestQuery {
     @Test
+    public void testGroupData() throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        System.out.println(query.groupNameAndGroupMates("sgsevier").toString());
+        query.closeConnection();
+    }
+
+    @Test
     public void testGetItems() throws Exception {
         Query query = new Query();
         query.prepareStatements();
