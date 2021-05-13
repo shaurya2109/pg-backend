@@ -1,28 +1,33 @@
 package pocketgrocer;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.sql.SQLException;
-
-import org.apache.maven.wagon.Wagon;
 import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class TestQuery {
-    String username = "sgsevier";
-    String firstName = "Sophia";
-    String lastName = "Sevier";
-    String password = "passwordHi";
+    @Test
+    public void testGroupData() throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        System.out.println(query.groupNameAndGroupMates("sgsevier").toString());
+        query.closeConnection();
+    }
+
+    @Test
+    public void testGetItems() throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        System.out.println(query.getUserItems("cooper").toString());
+        query.closeConnection();
+    }
 
     @Test
     public void checkUserExists() throws Exception {
         Query query = new Query();
         query.prepareStatements();
         assertTrue(query.userExists("sgsevier"));
+        assertTrue(query.userExists("cooper"));
         assertFalse(query.userExists("sgsevier1111111"));
         query.closeConnection();
     }
@@ -55,7 +60,7 @@ public class TestQuery {
     }
 
     @Test
-    public void checkGroupExists() throws Exception {
+    public void checkGroupName() throws Exception {
         Query query = new Query();
         query.prepareStatements();
         assertTrue(query.checkGroupExists("group4745"));
@@ -83,9 +88,10 @@ public class TestQuery {
     public void insertObject() throws Exception {
         Query query = new Query();
         query.prepareStatements();
-        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
-        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        query.addItem("tomato", "sgsevier", 0, "fridge", 0, sqlDate, 2);
+//        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
+//        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+        String date = "2021-05-10";
+        query.addItem("bagel", "sgsevier", 0, "pantry", 0, date, 2);
         query.closeConnection();
     }
 
@@ -93,28 +99,14 @@ public class TestQuery {
     public void getObjects() throws Exception {
         Query query = new Query();
         query.prepareStatements();
-        JSONObject rs = query.get_user_items("sgsevier");
+        JSONObject rs = query.getUserItems("sgsevier");
         System.out.println(rs);
         query.closeConnection();
     }
 
-    @Test
-    public void checkLogin(String userName, String pass) throws Exception {
-        Query query = new Query();
-        query.prepareStatements();
-        assertTrue(query.checkLogin("sgsevier", "passwordHi"));
-        assertFalse(query.checkLogin("sgsevier", "passwordHI"));
-    }
-
-    @Test
-    public void isMemberInGroup(String userName) throws Exception {
-        Query query = new Query();
-        query.prepareStatements();
-        assertTrue(query.isMemberInGroup("sgsevier"));
-    }
-
-    @Test
-    public void updateGroupName(String userName, String groupName) throws Exception {
-    }
+    // checkLogin(String userName, String pass)
+    // checkGroupExists(String groupname)
+    //isMemberInGroup(String userName)
+    // updateGroupName(String userName, String groupName)
 
 }
