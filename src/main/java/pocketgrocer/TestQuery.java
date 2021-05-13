@@ -104,9 +104,25 @@ public class TestQuery {
         query.closeConnection();
     }
 
-    // checkLogin(String userName, String pass)
+    @Test
+    public void checkLogin(String userName, String pass) throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        assertTrue(query.checkLogin("sgsevier", "passwordHi"));
+        assertFalse(query.checkLogin("sgsevier", "passwordHI"));
+    }
+
+    @Test
+    public void isMemberInGroup(String userName) throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        assertTrue(query.isMemberInGroup("sgsevier"));
+    }
+
+    @Test
+    public void updateGroupName(String userName, String groupName) throws Exception {
+    }
+
     // checkGroupExists(String groupname)
-    //isMemberInGroup(String userName)
-    // updateGroupName(String userName, String groupName)
 
 }
