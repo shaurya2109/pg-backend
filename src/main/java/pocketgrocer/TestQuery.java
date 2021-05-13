@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.sql.SQLException;
 
+import org.apache.maven.wagon.Wagon;
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -54,7 +55,7 @@ public class TestQuery {
     }
 
     @Test
-    public void checkGroupName() throws Exception {
+    public void checkGroupExists() throws Exception {
         Query query = new Query();
         query.prepareStatements();
         assertTrue(query.checkGroupExists("group4745"));
@@ -97,9 +98,23 @@ public class TestQuery {
         query.closeConnection();
     }
 
-    // checkLogin(String userName, String pass)
-    // checkGroupExists(String groupname)
-    //isMemberInGroup(String userName)
-    // updateGroupName(String userName, String groupName)
+    @Test
+    public void checkLogin(String userName, String pass) throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        assertTrue(query.checkLogin("sgsevier", "passwordHi"));
+        assertFalse(query.checkLogin("sgsevier", "passwordHI"));
+    }
+
+    @Test
+    public void isMemberInGroup(String userName) throws Exception {
+        Query query = new Query();
+        query.prepareStatements();
+        assertTrue(query.isMemberInGroup("sgsevier"));
+    }
+
+    @Test
+    public void updateGroupName(String userName, String groupName) throws Exception {
+    }
 
 }
