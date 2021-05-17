@@ -1,5 +1,5 @@
 # pg-backend
-This contains the mavern project for the Pocket Grocer application. The project has the folloing contents - 
+Maven based API for the Pocket Grocer application. The project has the folloing contents - 
 1. src/main/java/pocketgrocer - contains important files like Server.java and Query.java - both of these files are essential to run the backend for pocket grocer.
 2. pom.xml - contains information about all the dependencies required to build the project. 
 
