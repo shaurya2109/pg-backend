@@ -25,7 +25,7 @@ Before the project can be started:
    ```src/main/java/pocketgrocer/resources/application.properties```
 ### How to build/run
 Once steps 1. and 2. above are completed, follow the final step below to finish building and running the project
-3. In the directory location of application.properties, type these two commands in the terminal  
+3. In the location of the main pg-backend folder, type these two commands in the terminal  
     - ```mvn clean install```  
      
    - ```java -jar ./target/pocketgrocer-1.0-jar-with-dependencies.jar```
