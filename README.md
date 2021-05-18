@@ -21,15 +21,9 @@ The backend folder of pocket grocer supports the following calls -
 10. getting all of the inventory items for a particular person/group
 11. changing a shared indicator for a specific item (changing an item from personal to shared or vice versa)
 
-## Running the project -
-The project can be started using the following steps -
-1. Download the application.properties file from https://drive.google.com/file/d/1nW3plfgfajFuT449ayEtSrPEvr-kgZr8/view?usp=sharing
-2. Add the application.properties file to location ```src/main/java/pocketgrocer/resources/application.properties```.
-3. In the directory location of this folder type these lines in the terminal -
-    1. ```mvn clean install```
-    2.```java -jar ./target/pocketgrocer-1.0-jar-with-dependencies.jar```
-
-Once the jar file is run the server.java runs and the localhost starts at port number 4567.
+##Important Resources
+Our living document for the project can be found [here](https://docs.google.com/document/d/1yg2FRVRyhSzLMlVMepN6VLLvRP-tTFmFE2k0kkcl2Sc/edit#), this
+includes team structure, important links, our project timeline and schedule, and software and testing architecture.
 
 ## User Manual
 Check out our [user manual](UserDocumentation.md) to see how to use this system.
