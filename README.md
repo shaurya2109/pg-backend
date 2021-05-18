@@ -42,7 +42,11 @@ Check out our [user manual](UserDocumentation.md) to see how to use this system.
 ## Want to contribute to Pocket Grocer?
 Check out our [developer guidelines](DeveloperDocumentation.md) if you are interested in making our product better and contributing to the backend!
 
+&nbsp;
 
+&nbsp;
+
+&nbsp;
 
 These two sections will need to be removed when the info is transfered to the developer documentation
 # pg-backend
