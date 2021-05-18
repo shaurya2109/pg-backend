@@ -48,6 +48,9 @@ Check out our [developer guidelines](DeveloperDocumentation.md) if you are inter
 
 &nbsp;
 
+&nbsp;
+***************************************************
+
 These two sections will need to be removed when the info is transfered to the developer documentation
 # pg-backend
 Maven based API for the Pocket Grocer application. The project has the folloing contents - 
