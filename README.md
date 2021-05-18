@@ -1,4 +1,4 @@
-##PocketGrocer (pg) backend
+## PocketGrocer (pg) backend
 Thank you for your interest in our project! Below is some information about the main goals of this project, team members, use cases supported by the backend, as well as links to more documentation for users and developers interested in building and running our project.
 
 ### Project Description
