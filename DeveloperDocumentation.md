@@ -1,13 +1,12 @@
 # DEVELOPER GUIDELINES
 
-# How to contribute
-
 ## Obtaining source code
 If your system uses multiple repositories or submodules, provide clear instructions for how to obtain all relevant sources.
 @Sophia
 ## Directory Layout
 What do the various directories (folders) contain, and where to find source files, tests, documentation, data files, etc.
 How to build the software. Provide clear instructions for how to use your project’s build system to build all system components.
+@Tushar
 ###Important files  
 @Tushar add the directory layout
 1. Server.java - contains the method definition of all the API endpoints.
@@ -22,6 +21,7 @@ information such as how to access data sources or how to interact with external 
 (e.g., prerequisites) to avoid duplication.  
 @tushar JUnit testing
 @shaurya this is a good place to walk through how to test via postman
+@Shaurya, adding the info about the CI build 
 
 ## Adding new tests
 Are there any naming conventions/patterns to follow when naming test files? Is there a particular test harness to use?

@@ -29,18 +29,18 @@ Once steps 1. and 2. above are completed, follow the final step below to finish 
    - ```java -jar ./target/pocketgrocer-1.0-jar-with-dependencies.jar```
 ### How to use the system
 After the two commands above are executed, and the jar file is run, `server.java` runs. The localhost can be accessed at
-`localhost:4567` . In order to interact with the frontend part of the project as well, please refer to ___ and the repository's run and build 
+`localhost:4567` in your browser of choice. In order to interact with the frontend part of the project as well, please refer to ___ and the repository's run and build 
 instructions as well. In order to make sure the connection is successful after running and building, in your localhost url,
 type `/hello` after the port number and hit enter. This will call our hello endpoint that will display 'hello' on your screen. 
 For more information regarding the endpoints available, refer to [this spreadsheet](https://docs.google.com/spreadsheets/d/1rmU_KVO2o5DR8Hg_9x49V4n4ijTAwP74im51zqhfkEI/edit?ts=608f346d#gid=0)
 as well as the 'How to test the software' section in the [developer guidelines](DeveloperDocumentation.md)
 ### Bug Reporting
 We will use [GitHub Issues](https://github.com/shaurya2109/pg-backend/issues) to keep track of bugs. If you experience an issue, please navigate to this page and add "New issue" via the green "New issue" button.
-1. Write a ~10 word description of the bug to be the title. A good summary should quickly and uniquely identify a bug report. It should explain the problem, not the suggested solution.
-2. Write a detailed, ordered list of steps to reproduce the issue.
-3. After your steps, precisely describe the observed (actual) result and the expected result. Clearly separate facts (observations) from speculations.
+1. Write a brief description of the bug to be the report title. A good summary should succinctly describe the issue experienced.
+2. Write a detailed, ordered list of steps to reproduce the issue. Screenshots or pictures are also welcome if it helps clarify the description.
+3. Describe the observed (actual) result as well as the expected result. 
 
-Thank you for filling out a report for any bug you find, this will greatly help the developing team in making pocker grocer
+Thank you for filling out a report for any bug you find, this will greatly help the developing team in making pocket grocer
 a more seamless experience for you!
 See [Mozilla bug report writing guidelines](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Bug_writing_guidelines) for more information.
 
