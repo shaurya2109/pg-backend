@@ -15,11 +15,15 @@ Pocket Grocer is a web application that empowers individuals, as well as those l
 6. Tushar - General developer
 
 ### Installing software
-
+If your system has prerequisites (e.g., tools, libraries, emulators, third-party applications, etc.), your 
+instructions should list all of them and indicate how to install and configure them. Make sure to indicate what specific 
+version requirements these prerequisites must satisfy. If running the system requires the installation of, e.g., a virtual 
+machine, a database, or an emulator, make sure to provide
 ### How to build/run
 
 ### How to use the system
-
+You can assume that your user is familiar with your particular platform (e.g., use of a Web browser, desktop applications, 
+or mobile applications). For missing functionality, your documentation should simply indicate that this functionality is work in progress.
 ### Bug Reporting
 We will use [GitHub Issues](https://github.com/shaurya2109/pg-backend/issues) to keep track of bugs. If you experience an issue, please navigate to this page and add "New issue" via the green "New issue" button.
 1. Write a ~10 word description of the bug to be the title. A good summary should quickly and uniquely identify a bug report. It should explain the problem, not the suggested solution.
