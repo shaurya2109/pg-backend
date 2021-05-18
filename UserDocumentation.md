@@ -18,8 +18,10 @@ cases with which this application aims to help users are:
 
 ### Installing software
 Before the project can be started:
-1. Download the application.properties file [here](https://drive.google.com/file/d/1nW3plfgfajFuT449ayEtSrPEvr-kgZr8/view?usp=sharing)
-2. Add the application.properties file to this location:
+1. Clone this repo. IntelliJ is a recommended IDE, and it can easily be [downloaded and installed using student credentials](https://courses.cs.washington.edu/courses/cse373/19wi/resources/intellij/setup/)
+2. Download the application.properties file [here](https://drive.google.com/file/d/1nW3plfgfajFuT449ayEtSrPEvr-kgZr8/view?usp=sharing)
+   . Only CSE students with a valid @cse.edu email will have access to download this file.
+3. Add the application.properties file to this location:
    ```src/main/java/pocketgrocer/resources/application.properties```
 ### How to build/run
 Once steps 1. and 2. above are completed, follow the final step below to finish building and running the project
@@ -29,8 +31,10 @@ Once steps 1. and 2. above are completed, follow the final step below to finish 
    - ```java -jar ./target/pocketgrocer-1.0-jar-with-dependencies.jar```
 ### How to use the system
 After the two commands above are executed, and the jar file is run, `server.java` runs. The localhost can be accessed at
-`localhost:4567` in your browser of choice. In order to interact with the frontend part of the project as well, please refer to ___ and the repository's run and build 
-instructions as well. In order to make sure the connection is successful after running and building, in your localhost url,
+`localhost:4567` in your browser of choice. In order to interact with the frontend part of the system as well, please refer to [the frontend github repo](https://github.com/libbyk000/pocket-grocer)
+and the repository's User and Developer Guidelines.
+instructions as well.  
+In order to make sure the connection is successful after running and building, in your localhost url,
 type `/hello` after the port number and hit enter. This will call our hello endpoint that will display 'hello' on your screen. 
 For more information regarding the endpoints available, refer to [this spreadsheet](https://docs.google.com/spreadsheets/d/1rmU_KVO2o5DR8Hg_9x49V4n4ijTAwP74im51zqhfkEI/edit?ts=608f346d#gid=0)
 as well as the 'How to test the software' section in the [developer guidelines](DeveloperDocumentation.md)
