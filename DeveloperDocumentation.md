@@ -1,8 +1,10 @@
 # DEVELOPER GUIDELINES
 
 ## Obtaining source code
-If your system uses multiple repositories or submodules, provide clear instructions for how to obtain all relevant sources.
-@Sophia
+Thanks for your interest in our project! PocketGrocer is split up into 2 main github repositories. This repository
+is responsible for all the backend code and testing infrastructure. Refer to [the frontend github repo](https://github.com/libbyk000/pocket-grocer)
+to learn how to build and install the frontend web application. Both repositories will need to be cloned, built, and run in order to get started with the application.
+
 ## Directory Layout
 What do the various directories (folders) contain, and where to find source files, tests, documentation, data files, etc.
 How to build the software. Provide clear instructions for how to use your project’s build system to build all system components.
@@ -13,7 +15,7 @@ How to build the software. Provide clear instructions for how to use your projec
 2. Query.java - contains the Prepared statements, and the function definitions of all the methods being used in the Server.java file.
 
 ## How to build the software
-
+Please refer to "Installing software" and "How to build/run" sections in the [user documentation](UserDocumentation.md)
 
 ## How to test the software
 Provide clear instructions for how to run the system’s test cases. In some cases, the instructions may need to include 

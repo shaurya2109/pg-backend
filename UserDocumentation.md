@@ -48,4 +48,4 @@ See [Mozilla bug report writing guidelines](https://developer.mozilla.org/en-US/
 See [GitHub Issues](https://github.com/shaurya2109/pg-backend/issues).
 
 ### Want to contribute to Pocket Grocer?
-Check out our [developer guidelines](DeveloperDocumentation.md) if you are interested in making our product better!
+Check out our [developer documentation](DeveloperDocumentation.md) if you are interested in making our product better!
