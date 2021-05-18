@@ -27,3 +27,9 @@ The project can be started using the following steps -
     2.```java -jar ./target/pocketgrocer-1.0-jar-with-dependencies.jar```
 
 Once the jar file is run the server.java runs and the localhost starts at port number 4567.
+
+## User Manual
+Check out our [user manual](UserDocumentation.md) to see how to use this system.
+
+## Want to contribute to Pocket Grocer?
+Check out our [developer guidelines](DeveloperDocumentation.md) if you are interested in making our product better!
