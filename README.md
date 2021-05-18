@@ -7,16 +7,19 @@ Maven based API for the Pocket Grocer application. The project has the folloing 
 1. Server.java - contains the method definition of all the API endpoints.
 2. Query.java - contains the Prepared statements, and the function definitions of all the methods being used in the Server.java file.
 
-## Use cases on the backend folder - 
+## Use cases supported on the backend - 
 The backend folder of pocket grocer supports the following calls - 
 1. adding a new user in the database
 2. checking the login information of an existing user
 3. setting up a new account of a user
 4. deleting a previously created account of a user
-5. adding a current user to an existing household
-6. adding an item to inventory
-7. deleting an item from the inventory
-8. getting all the inventory items for a particular person/group
+5. adding a current user to an existing group/household
+6. creating a new group/household
+7. removing someone from a group/household
+8. adding an item to inventory for a specific user
+9. deleting an item from the inventory
+10. getting all of the inventory items for a particular person/group
+11. changing a shared indicator for a specific item (changing an item from personal to shared or vice versa)
 
 ## Running the project -
 The project can be started using the following steps -
