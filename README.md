@@ -37,7 +37,7 @@ The backend folder of pocket grocer supports the following calls -
 10. getting all of the inventory items for a particular person/group
 11. changing a shared indicator for a specific item (changing an item from personal to shared or vice versa)
 
-##Important Resources
+## Important Resources    
 Our living document for the project can be found [here](https://docs.google.com/document/d/1yg2FRVRyhSzLMlVMepN6VLLvRP-tTFmFE2k0kkcl2Sc/edit#), this
 includes team structure, important links, our project timeline and schedule, and software and testing architecture.
 
