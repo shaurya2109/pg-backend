@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 public class TestQuery {
     @Test
     public void testGroupData() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         System.out.println(query.groupNameAndGroupMates("sgsevier").toString());
         query.closeConnection();
@@ -16,7 +16,7 @@ public class TestQuery {
 
     @Test
     public void testGetItems() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         System.out.println(query.getUserItems("cooper").toString());
         query.closeConnection();
@@ -24,7 +24,7 @@ public class TestQuery {
 
     @Test
     public void checkUserExists() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.userExists("sgsevier"));
         assertTrue(query.userExists("cooper"));
@@ -35,7 +35,7 @@ public class TestQuery {
     // first adding a new user then checking if it exists or not
     @Test
     public void checkAddUser1() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         String userName = "tushar411";
         String firstName = "Tushar";
@@ -50,7 +50,7 @@ public class TestQuery {
     // trying to add a user that already exists
     @Test
     public void checkAddUser2() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         String userName = "sgsevier";
         String firstName = "Sophia";
@@ -61,7 +61,7 @@ public class TestQuery {
 
     @Test
     public void checkGroupName() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.checkGroupExists("group4745"));
         query.closeConnection();
@@ -70,7 +70,7 @@ public class TestQuery {
 
     @Test
     public void updateGroupName() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.updateGroupName("sgsevier", "group4745-1"));
         query.closeConnection();
@@ -78,7 +78,7 @@ public class TestQuery {
 
     @Test
     public void check_get_id() throws Exception{
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         assertEquals(10, query.getID());
         query.closeConnection();
@@ -86,7 +86,7 @@ public class TestQuery {
 
     @Test
     public void insertObject() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
 //        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
 //        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
@@ -97,7 +97,7 @@ public class TestQuery {
 
     @Test
     public void getObjects() throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         JSONObject rs = query.getUserItems("sgsevier");
         System.out.println(rs);
@@ -106,7 +106,7 @@ public class TestQuery {
 
     @Test
     public void checkLogin(String userName, String pass) throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.checkLogin("sgsevier", "passwordHi"));
         assertFalse(query.checkLogin("sgsevier", "passwordHI"));
@@ -114,7 +114,7 @@ public class TestQuery {
 
     @Test
     public void isMemberInGroup(String userName) throws Exception {
-        Query query = new Query();
+        QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.isMemberInGroup("sgsevier"));
     }
