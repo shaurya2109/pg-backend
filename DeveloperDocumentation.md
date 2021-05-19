@@ -24,10 +24,6 @@ Please refer to "Installing software" and "How to build/run" sections in the [us
 
 ## How to test the software
 
-Provide clear instructions for how to run the system’s test cases. In some cases, the instructions may need to include
-information such as how to access data sources or how to interact with external systems. You may reference the user documentation
-(e.g., prerequisites) to avoid duplication.
-
 Testing the methods using Junit testing:
 Once you clone the file and set it up on IntelliJ, the Junit testing can be done by running the TestQuery.java file. This file tests all the methods individually. This helps in testing the backend from the ground up. No other file is needed to be running for the Junit testing.
 
@@ -45,8 +41,7 @@ Look at this image to see an example of a POST request made to add a user to the
 
 ## Adding new tests
 
-Are there any naming conventions/patterns to follow when naming test files? Is there a particular test harness to use?
-@Myka
+Adding more tests to the backend of pocket-grocer is very straightforward. More tests can be added in the form of new methods in the TestQuery.java file. This files uses functions defined in the QueryTest.java file.
 
 ## Build/Release
 
