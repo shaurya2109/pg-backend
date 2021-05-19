@@ -52,10 +52,10 @@ public class QueryTest {// DB Connection
     private static final String DELETE_ITEM = "DELETE FROM INVENTORYTEST WHERE itemID = (?)";
     private PreparedStatement deleteItem;
 
-    private static final String GET_ID = "SELECT * FROM Counter_test";
+    private static final String GET_ID = "SELECT * FROM COUNTERTEST";
     private PreparedStatement get_counter;
 
-    private static final String UPDATE_ID = "UPDATE Counter_test set count = (?)";
+    private static final String UPDATE_ID = "UPDATE COUNTERTEST set count = (?)";
     private PreparedStatement update_id;
 
     private static final String GET_USER_ITEMS = "SELECT * FROM INVENTORYTEST WHERE userName = (?)";
