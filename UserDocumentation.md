@@ -17,25 +17,39 @@ cases with which this application aims to help users are:
 6. Tushar - General developer
 
 ### Installing software
-If your system has prerequisites (e.g., tools, libraries, emulators, third-party applications, etc.), your 
-instructions should list all of them and indicate how to install and configure them. Make sure to indicate what specific 
-version requirements these prerequisites must satisfy. If running the system requires the installation of, e.g., a virtual 
-machine, a database, or an emulator, make sure to provide
+Before the project can be started:
+1. Clone this repo. IntelliJ is a recommended IDE, and it can easily be [downloaded and installed using student credentials](https://courses.cs.washington.edu/courses/cse373/19wi/resources/intellij/setup/)
+2. Download the application.properties file [here](https://drive.google.com/file/d/1nW3plfgfajFuT449ayEtSrPEvr-kgZr8/view?usp=sharing)
+   . Only CSE students with a valid @cse.edu email will have access to download this file.
+3. Add the application.properties file to this location:
+   ```src/main/java/pocketgrocer/resources/application.properties```
 ### How to build/run
-
+Once steps 1. and 2. above are completed, follow the final step below to finish building and running the project
+3. In the location of the main pg-backend folder, type these two commands in the terminal  
+    - ```mvn clean install```  
+     
+   - ```java -jar ./target/pocketgrocer-1.0-jar-with-dependencies.jar```
 ### How to use the system
-You can assume that your user is familiar with your particular platform (e.g., use of a Web browser, desktop applications, 
-or mobile applications). For missing functionality, your documentation should simply indicate that this functionality is work in progress.
+After the two commands above are executed, and the jar file is run, `server.java` runs. The localhost can be accessed at
+`localhost:4567` in your browser of choice. In order to interact with the frontend part of the system as well, please refer to [the frontend github repo](https://github.com/libbyk000/pocket-grocer)
+and the repository's User and Developer Guidelines.
+instructions as well.  
+In order to make sure the connection is successful after running and building, in your localhost url,
+type `/hello` after the port number and hit enter. This will call our hello endpoint that will display 'hello' on your screen. 
+For more information regarding the endpoints available, refer to [this spreadsheet](https://docs.google.com/spreadsheets/d/1rmU_KVO2o5DR8Hg_9x49V4n4ijTAwP74im51zqhfkEI/edit?ts=608f346d#gid=0)
+as well as the 'How to test the software' section in the [developer guidelines](DeveloperDocumentation.md)
 ### Bug Reporting
 We will use [GitHub Issues](https://github.com/shaurya2109/pg-backend/issues) to keep track of bugs. If you experience an issue, please navigate to this page and add "New issue" via the green "New issue" button.
-1. Write a ~10 word description of the bug to be the title. A good summary should quickly and uniquely identify a bug report. It should explain the problem, not the suggested solution.
-2. Write a detailed, ordered list of steps to reproduce the issue.
-3. After your steps, precisely describe the observed (actual) result and the expected result. Clearly separate facts (observations) from speculations.
+1. Write a brief description of the bug to be the report title. A good summary should succinctly describe the issue experienced.
+2. Write a detailed, ordered list of steps to reproduce the issue. Screenshots or pictures are also welcome if it helps clarify the description.
+3. Describe the observed (actual) result as well as the expected result. 
 
+Thank you for filling out a report for any bug you find, this will greatly help the developing team in making pocket grocer
+a more seamless experience for you!
 See [Mozilla bug report writing guidelines](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Bug_writing_guidelines) for more information.
 
 ### Known Bugs
 See [GitHub Issues](https://github.com/shaurya2109/pg-backend/issues).
 
 ### Want to contribute to Pocket Grocer?
-Check out our [developer guidelines](DeveloperDocumentation.md) if you are interested in making our product better!
+Check out our [developer documentation](DeveloperDocumentation.md) if you are interested in making our product better!
