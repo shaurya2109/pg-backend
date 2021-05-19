@@ -402,12 +402,12 @@ public class QueryTest {// DB Connection
     }
 
     public int getID(){
-        try{
+        try {
             ResultSet rs = get_counter.executeQuery();
             while(rs.next()){
                 return rs.getInt(1);
             }
-        }catch(SQLException error){
+        } catch(SQLException error){
             System.out.println(error);
             return -1;
         }

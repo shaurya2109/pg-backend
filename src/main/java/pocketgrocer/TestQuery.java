@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TestQuery {
+
     @Test
     public void testGroupData() throws Exception {
         QueryTest query = new QueryTest();
@@ -79,7 +80,7 @@ public class TestQuery {
     }
 
     @Test
-    public void checkGroupName() throws Exception {
+    public void checkGroupExists() throws Exception {
         QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.checkGroupExists("group4745-1"));
@@ -91,14 +92,6 @@ public class TestQuery {
         QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.isMemberInGroup("sgsevier"));
-    }
-
-    @Test
-    public void check_get_id() throws Exception{
-        QueryTest query = new QueryTest();
-        query.prepareStatements();
-        assertEquals(12, query.getID());
-        query.closeConnection();
     }
 
     @Test
@@ -121,6 +114,42 @@ public class TestQuery {
         query.closeConnection();
     }
 
-    // checkGroupExists(String groupname)
+    @Test
+    /**
+     * checks if item with itemID 12 exists
+     */
+    public void checkItemExists() throws Exception {
+        QueryTest query = new QueryTest();
+        query.prepareStatements();
+        assertTrue(query.checkItem(12));
+        query.closeConnection();
+    }
 
+    @Test
+    /**
+     * Check item is deleted properly
+     * @throws Exception
+     */
+    public void checkDeleteItem() throws Exception {
+        QueryTest query = new QueryTest();
+        query.prepareStatements();
+        String date = "2021-05-18";
+        query.addItem("bread", "sgsevier", 1, "bakery", 1, date, 2);
+        int id = query.getID();
+        query.deleteItem(id);
+        assertFalse(query.checkItem(id));
+    }
+
+    @Test
+    /**
+     * Check if item shared changed correctly
+     */
+    public void checkChangeShared() throws Exception {
+        QueryTest query = new QueryTest();
+        query.prepareStatements();
+        String date = "2021-05-28";
+        query.addItem("apple", "sgsevier", 0, "fruit", 1, date, 2);
+        assertTrue(query.changeShared(query.getID(), 0));
+        query.deleteItem(query.getID());
+    }
 }
