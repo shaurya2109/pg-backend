@@ -22,19 +22,6 @@ public class TestQuery {
         query.closeConnection();
     }
 
-    @Test
-    /**
-     *
-     */
-    public void checkUserExists() throws Exception {
-        QueryTest query = new QueryTest();
-        query.prepareStatements();
-        assertTrue(query.userExists("sgsevier"));
-        assertTrue(query.userExists("cooper"));
-        assertFalse(query.userExists("sgsevier1111111"));
-        query.closeConnection();
-    }
-
     // first adding a new user then checking if it exists or not
     @Test
     public void checkAddUser1() throws Exception {
@@ -63,13 +50,25 @@ public class TestQuery {
     }
 
     @Test
-    public void checkGroupName() throws Exception {
+    public void checkLogin() throws Exception {
         QueryTest query = new QueryTest();
         query.prepareStatements();
-        assertTrue(query.checkGroupExists("group4745"));
-        query.closeConnection();
+        assertTrue(query.checkLogin("sgsevier", "pass2"));
+        assertFalse(query.checkLogin("sgsevier", "passwordHI"));
     }
 
+    @Test
+    /**
+     *
+     */
+    public void checkUserExists() throws Exception {
+        QueryTest query = new QueryTest();
+        query.prepareStatements();
+        assertTrue(query.userExists("sgsevier"));
+        assertFalse(query.userExists("cooper"));
+        assertFalse(query.userExists("sgsevier1111111"));
+        query.closeConnection();
+    }
 
     @Test
     public void updateGroupName() throws Exception {
@@ -80,10 +79,25 @@ public class TestQuery {
     }
 
     @Test
+    public void checkGroupName() throws Exception {
+        QueryTest query = new QueryTest();
+        query.prepareStatements();
+        assertTrue(query.checkGroupExists("group4745-1"));
+        query.closeConnection();
+    }
+
+    @Test
+    public void isMemberInGroup() throws Exception {
+        QueryTest query = new QueryTest();
+        query.prepareStatements();
+        assertTrue(query.isMemberInGroup("sgsevier"));
+    }
+
+    @Test
     public void check_get_id() throws Exception{
         QueryTest query = new QueryTest();
         query.prepareStatements();
-        assertEquals(10, query.getID());
+        assertEquals(12, query.getID());
         query.closeConnection();
     }
 
@@ -105,21 +119,6 @@ public class TestQuery {
         JSONObject rs = query.getUserItems("sgsevier");
         System.out.println(rs);
         query.closeConnection();
-    }
-
-    @Test
-    public void checkLogin() throws Exception {
-        QueryTest query = new QueryTest();
-        query.prepareStatements();
-        assertTrue(query.checkLogin("sgsevier", "passwordHi"));
-        assertFalse(query.checkLogin("sgsevier", "passwordHI"));
-    }
-
-    @Test
-    public void isMemberInGroup() throws Exception {
-        QueryTest query = new QueryTest();
-        query.prepareStatements();
-        assertTrue(query.isMemberInGroup("sgsevier"));
     }
 
     // checkGroupExists(String groupname)
