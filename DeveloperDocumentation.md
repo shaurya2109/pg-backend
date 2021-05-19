@@ -29,8 +29,19 @@ Provide clear instructions for how to run the system’s test cases. In some cas
 information such as how to access data sources or how to interact with external systems. You may reference the user documentation 
 (e.g., prerequisites) to avoid duplication.  
 @tushar JUnit testing
-@shaurya this is a good place to walk through how to test via postman
-@Shaurya, adding the info about the CI build 
+
+Testing the HTTP Endpoints:
+Once the server is running using the "How to build/run" sections in the [user documentation](UserDocumentation.md
+), we can test the HTTP endpoints using a browser [limitations apply] or using a service like Postman.   
+Download and install the Postman Desktop Agent from [here](https://www.postman.com/downloads/) (to overcome the Cross
+ Object Resource Sharing (CORS) limitations of browsers) if you want to use Postman's web interface. You can even
+  directly use Postman's desktop application.  
+Follow the steps in the Postman [tutorial](https://learning.postman.com/docs/getting-started/sending-the-first
+-request/) to make a GET request to the hello endpoint, `localhost:4567/hello`.  
+For more information regarding the endpoints available, refer to [this spreadsheet](https://docs.google.com/spreadsheets/d/1rmU_KVO2o5DR8Hg_9x49V4n4ijTAwP74im51zqhfkEI/edit?ts=608f346d#gid=0) and remember to be careful while
+ making requests, since you could potentially do unintended CRUD operations to the database.
+Look at this image to see an example of a POST request made to add a user to the server.  
+[Postman Add User](/images/postman.png)
 
 ## Adding new tests
 Are there any naming conventions/patterns to follow when naming test files? Is there a particular test harness to use?

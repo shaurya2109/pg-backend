@@ -24,20 +24,24 @@ Before the project can be started:
 3. Add the application.properties file to this location:
    ```src/main/java/pocketgrocer/resources/application.properties```
 ### How to build/run
-Once steps 1. and 2. above are completed, follow the final step below to finish building and running the project
-3. In the location of the main pg-backend folder, type these two commands in the terminal  
+Once the steps above are completed, follow the final step below to run the project
+4. In the location of the main pg-backend folder, type these two commands in the terminal  
     - ```mvn clean install```  
      
    - ```java -jar ./target/pocketgrocer-1.0-jar-with-dependencies.jar```
 ### How to use the system
-After the two commands above are executed, and the jar file is run, `server.java` runs. The localhost can be accessed at
-`localhost:4567` in your browser of choice. In order to interact with the frontend part of the system as well, please refer to [the frontend github repo](https://github.com/libbyk000/pocket-grocer)
-and the repository's User and Developer Guidelines.
+After the steps above are executed and the jar file runs, the server is connected and running. The public endpoint
+ can be accessed at `localhost:4567` in the browser of your choice. In order to interact with the frontend part of
+  the system as well, please refer to [the frontend github repo](https://github.com/libbyk000/pocket-grocer) and the
+   repository's User and Developer Guidelines.
 instructions as well.  
 In order to make sure the connection is successful after running and building, in your localhost url,
-type `/hello` after the port number and hit enter. This will call our hello endpoint that will display 'hello' on your screen. 
-For more information regarding the endpoints available, refer to [this spreadsheet](https://docs.google.com/spreadsheets/d/1rmU_KVO2o5DR8Hg_9x49V4n4ijTAwP74im51zqhfkEI/edit?ts=608f346d#gid=0)
-as well as the 'How to test the software' section in the [developer guidelines](DeveloperDocumentation.md)
+type `/hello` after the port number and hit enter [`localhost:4567/hello`]. This will call our hello endpoint that will
+ display 'hello' on your screen. 
+For more information regarding the endpoints available, refer to [this spreadsheet](https://docs.google.com/spreadsheets/d/1rmU_KVO2o5DR8Hg_9x49V4n4ijTAwP74im51zqhfkEI/edit?ts=608f346d#gid=0) as well as the 'How to test the
+ software' section in the [developer guidelines](DeveloperDocumentation.md).  
+Once the backend is deployed, the frontend will automatically work with the API, without having the user to install
+ , build, or run the backend.
 ### Bug Reporting
 We will use [GitHub Issues](https://github.com/shaurya2109/pg-backend/issues) to keep track of bugs. If you experience an issue, please navigate to this page and add "New issue" via the green "New issue" button.
 1. Write a brief description of the bug to be the report title. A good summary should succinctly describe the issue experienced.
