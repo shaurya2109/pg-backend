@@ -44,11 +44,13 @@ Look at this image to see an example of a POST request made to add a user to the
 Adding more tests to the backend of pocket-grocer is very straightforward. More tests can be added in the form of new methods in the TestQuery.java file. This files uses functions defined in the QueryTest.java file.
 
 ## Build/Release
-
-Describe any tasks that are not automated. For example, should a developer update a version number (in code and documentation)
-prior to invoking the build system? Are there any sanity checks a developer should perform after building a release?  
-@Shaurya
-
+The `pom.xml` is the heart of this maven repository, storing crucial information about the project and its built.  
+We are currently on version 1.0 of the project, and `pom.xml` is used to maintain the versioning of the project
+. Major changes after launching the application can solicit new version numbers, which should be updated here and in
+ the `pom.xml` file.  
+Every commit to the repository goes through a CI pipeline which tests the API by successfully building and running the
+ server. Beyond this, you can manually do a maven clean install to build, run, and test the server using the
+  instructions above.
 ## Coding conventions
 
 In order to use consistent coding standards, please follow [this Java style guide](https://google.github.io/styleguide/javaguide.html), [this SQL style guide](https://about.gitlab.com/handbook/business-technology/data-team/platform/sql-style-guide/).
