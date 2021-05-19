@@ -146,7 +146,7 @@ public class QueryTest {// DB Connection
     }
 
     /**
-     * Adds a user into the USERS table
+     * Adds a user into the USERSTEST table
      * @param userName
      * @param firstName
      * @param lastName
