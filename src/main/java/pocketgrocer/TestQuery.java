@@ -23,6 +23,9 @@ public class TestQuery {
     }
 
     @Test
+    /**
+     *
+     */
     public void checkUserExists() throws Exception {
         QueryTest query = new QueryTest();
         query.prepareStatements();
@@ -105,7 +108,7 @@ public class TestQuery {
     }
 
     @Test
-    public void checkLogin(String userName, String pass) throws Exception {
+    public void checkLogin() throws Exception {
         QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.checkLogin("sgsevier", "passwordHi"));
@@ -113,14 +116,10 @@ public class TestQuery {
     }
 
     @Test
-    public void isMemberInGroup(String userName) throws Exception {
+    public void isMemberInGroup() throws Exception {
         QueryTest query = new QueryTest();
         query.prepareStatements();
         assertTrue(query.isMemberInGroup("sgsevier"));
-    }
-
-    @Test
-    public void updateGroupName(String userName, String groupName) throws Exception {
     }
 
     // checkGroupExists(String groupname)
