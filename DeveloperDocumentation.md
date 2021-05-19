@@ -41,7 +41,11 @@ Look at this image to see an example of a POST request made to add a user to the
 
 ## Adding new tests
 
-Adding more tests to the backend of pocket-grocer is very straightforward. More tests can be added in the form of new methods in the TestQuery.java file. This files uses functions defined in the QueryTest.java file.
+Adding more tests to the backend of pocket-grocer is very straightforward. More tests can be added in the form of new methods in the TestQuery.java file. This files uses functions defined in the QueryTest.java file.  
+
+-To add new tests, new methods must be created in TestQuery.java. Each method is testing a specific test case which can be identified by the name of the method and it’s documentation. Add a documentation comment for the method that briefly explains the purpose of the test case.   
+-Naming conventions: Use clear naming conventions that effectively conveys the purpose of the test. For example, the test method for checking if a user exists is called checkUserExists().  
+-Depending on the test case it may be necessary to remove any rows that are created within the test case at the end of the method. For example, if the goal is to check if a new user is successfully added to the UsersTest table, the user row must be removed before moving onto further testing otherwise the next time the test cases are run the user will already be in the test table which will cause the test case to fail. 
 
 ## Build/Release
 The `pom.xml` is the heart of this maven repository, storing crucial information about the project and its built.  
