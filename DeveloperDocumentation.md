@@ -6,9 +6,16 @@ is responsible for all the backend code and testing infrastructure. Refer to [th
 to learn how to build and install the frontend web application. Both repositories will need to be cloned, built, and run in order to get started with the application.
 
 ## Directory Layout
-What do the various directories (folders) contain, and where to find source files, tests, documentation, data files, etc.
-How to build the software. Provide clear instructions for how to use your project’s build system to build all system components.
-@Tushar
+- .github/workflows
+    * mavern.yml - build and deploy the script on Github
+- .idea - all project-specific settings for the project are stored in this folder. This folder is not responsible for the working of the backend. 
+- src/main/java/pocketgrocer
+    * resources/application.properties - the following file needs to be added by the user from the Google Drive link provided. The file contains the link of the server, the password and other important information needed to connect to Azure SQL database. 
+    * Query.java - contains the Prepared statements, and the function definitions of all the methods being used in the Server.java file.
+    * Server.java - contains the method definition of all the API endpoints.
+    * QueryTest.java - contains the Prepared statements, and the function definitions of all the methods being used to test the working of the backend in TestQuery.java 
+    * TestQuery.java - tests all the functions defined in the QueryTest file. Independently testing all the functions makes it easier to find errors and inconsistencies. 
+    
 ###Important files  
 @Tushar add the directory layout
 1. Server.java - contains the method definition of all the API endpoints.
@@ -36,8 +43,4 @@ prior to invoking the build system? Are there any sanity checks a developer shou
 
 ## Coding conventions
 In order to use consistent coding standards, please follow [this Java style guide](https://google.github.io/styleguide/javaguide.html), [this SQL style guide](https://about.gitlab.com/handbook/business-technology/data-team/platform/sql-style-guide/). 
-This will help keep our code clean and readable! 
-
-
-
-
+This will help keep our code clean and readable!
