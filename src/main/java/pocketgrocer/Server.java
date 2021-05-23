@@ -305,6 +305,26 @@ public class Server {
             }
         });
 
+        post("/items/getRecent", (request, response) -> {
+            JSONObject user = new JSONObject(request.body());
+            String userName = user.getString("userName");
+
+            try {
+                if (!query.userExists(userName)) {
+                    response.status(409);
+                    return ("Username doesn't exist");
+                } else {
+                    JSONObject itemsList = query.getRecentlyPurchased(userName);
+                    response.status(200);
+                    response.type("application/json");
+                    return itemsList.toString();
+                }
+            } catch (Exception e) {
+                response.status(400);
+                return (e);
+            }
+        });
+
         post("/items/delete", (request, response) -> {
             JSONObject item = new JSONObject(request.body());
             int itemID = Integer.parseInt(item.getString("itemID"));

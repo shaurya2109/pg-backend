@@ -46,7 +46,7 @@ public class QueryTest {// DB Connection
     private static final String SEARCH_USER = "SELECT * FROM USERSTEST WHERE userName = (?)";
     private PreparedStatement searchUser;
 
-    private static final String ADD_ITEM = "INSERT INTO INVENTORYTEST VALUES (?,?,?,?,?,?,?)";
+    private static final String ADD_ITEM = "INSERT INTO INVENTORYTEST VALUES (?,?,?,?,?,?,?,?)";
     private PreparedStatement addItem;
 
     private static final String DELETE_ITEM = "DELETE FROM INVENTORYTEST WHERE itemID = (?)";
@@ -75,6 +75,9 @@ public class QueryTest {// DB Connection
     private static final String ADD_MEMBER = "UPDATE USERSTEST set groupName = (?) WHERE userName = (?)";
     private PreparedStatement addMember;
 
+    private static final String GET_RECENT_ITEMS = "SELECT * FROM INVENTORY WHERE userName = (?) AND (dateAdded BETWEEN GETDATE() - 7 AND GETDATE())";
+    private PreparedStatement getRecentItems;
+
     static {
         System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
         log = Logger.getLogger(Query.class.getName());
@@ -100,6 +103,7 @@ public class QueryTest {// DB Connection
         changeShared = conn.prepareStatement(CHANGE_SHARED);
         getGroupName = conn.prepareStatement(GET_GROUPNAME);
         getGroupMembers = conn.prepareStatement(GET_GROUP_MEMBERS);
+        getRecentItems = conn.prepareStatement(GET_RECENT_ITEMS);
     }
 
     public QueryTest() throws Exception {
@@ -375,6 +379,8 @@ public class QueryTest {// DB Connection
     public boolean addItem(String itemName, String userName, int shared, String category,
                            int storage, String expiration, int quantity) throws ParseException {
         Date expirationDate = Date.valueOf(expiration);
+        Date dateAdded = new Date(System.currentTimeMillis());
+
         for(int i = 0; i < quantity; i++){
             try {
 //                System.out.println(1);
@@ -387,6 +393,7 @@ public class QueryTest {// DB Connection
                 addItem.setString(5, category);
                 addItem.setInt(6, storage);
                 addItem.setDate(7, expirationDate);
+                addItem.setDate(8, dateAdded);
 //                System.out.println(1);
                 addItem.execute();
 //                System.out.println(1);
@@ -456,6 +463,7 @@ public class QueryTest {// DB Connection
             record.put("category", rs.getString("category"));
             record.put("storage", rs.getInt("storage"));
             record.put("expiration", rs.getDate("expiration"));
+            record.put("dateAdded", rs.getDate("dateAdded"));
             array.put(record);
         }
         jsonObject.put("Items", array);
@@ -500,6 +508,30 @@ public class QueryTest {// DB Connection
         } catch (SQLException error){
             return false;
         }
+    }
+
+    public JSONObject getRecentlyPurchased(String userName) throws SQLException {
+        getRecentItems.setString(1, userName);
+        ResultSet rs = getUserItems.executeQuery();
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        int itemNums = 1;
+        while(rs.next()) {
+            JSONObject record = new JSONObject();
+            //Inserting key-value pairs into the json object
+            record.put("itemID", rs.getInt("itemID"));
+            record.put("itemName", rs.getString("itemName"));
+            record.put("userName", rs.getString("userName"));
+            record.put("shared", rs.getInt("shared"));
+            record.put("category", rs.getString("category"));
+            record.put("storage", rs.getInt("storage"));
+            record.put("expiration", rs.getDate("expiration"));
+            record.put("dateAdded", rs.getDate("dateAdded"));
+            array.put(record);
+        }
+        jsonObject.put("Items", array);
+        return jsonObject;
     }
 }
 

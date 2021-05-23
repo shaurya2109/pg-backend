@@ -101,7 +101,7 @@ public class TestQuery {
 //        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
 //        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         String date = "2021-05-10";
-        query.addItem("bagel", "sgsevier", 0, "pantry", 0, date, 2);
+        query.addItem("pizza", "sgsevier", 0, "pantry", 0, date, 2);
         query.closeConnection();
     }
 
@@ -148,6 +148,7 @@ public class TestQuery {
         QueryTest query = new QueryTest();
         query.prepareStatements();
         String date = "2021-05-28";
+        String date2 = "2021-05-23";
         query.addItem("apple", "sgsevier", 0, "fruit", 1, date, 2);
         assertTrue(query.changeShared(query.getID(), 0));
         query.deleteItem(query.getID());
