@@ -5,7 +5,7 @@
 Thanks for your interest in our project! PocketGrocer is split up into 2 main github repositories. This repository
 is responsible for all the backend code and testing infrastructure. Refer to [the frontend github repo](https://github.com/libbyk000/pocket-grocer)
 to learn how to build and install the frontend web application.     
-### *Both repositories will need to be cloned, built, and run in order to get started with the application.
+### *Both repositories will need to be cloned, built, and run in order to get started with the application.*
 
 ## Directory Layout
 
