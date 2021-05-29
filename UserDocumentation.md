@@ -17,7 +17,7 @@ cases with which this application aims to help users are:
 6. Tushar - General developer
 
 ### Installing software  
-Note: Maven is required to run the backend. Please refer to the instructions [here](https://maven.apache.org/install.html) to download and install maven.  
+*Note: Maven is required to run the backend. Please refer to the instructions [here](https://maven.apache.org/install.html) to download and install maven*
 Before the project can be started:  
 1. Clone this repo. IntelliJ is a recommended IDE, and it can easily be [downloaded and installed using student credentials](https://courses.cs.washington.edu/courses/cse373/19wi/resources/intellij/setup/)
 2. Download the application.properties file [here](https://drive.google.com/file/d/1nW3plfgfajFuT449ayEtSrPEvr-kgZr8/view?usp=sharing)
