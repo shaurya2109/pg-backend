@@ -26,12 +26,6 @@ public class Query {
 
     private static final Logger log;
 
-    // Password hashing parameter constants
-    private static final int HASH_STRENGTH = 65536;
-    private static final int KEY_LENGTH = 128;
-
-    //Users table columns: userName, firstName, lastName, password, groupName
-
     //canned queries
     private static final String INSERT_USER = "INSERT INTO USERS VALUES (?,?,?,?,?)";
     private PreparedStatement insertUser;
@@ -75,10 +69,11 @@ public class Query {
     private static final String CHECK_ITEM = "SELECT COUNT(*) FROM INVENTORY WHERE itemID = (?)";
     private PreparedStatement checkItem;
 
-    //Update [dbo].[INVENTORY] set shared = 0 WHERE itemID = 3;
     private static final String CHANGE_SHARED = "UPDATE INVENTORY SET shared = (?) WHERE itemID = (?)";
     private PreparedStatement changeShared;
 
+    private static final String GET_GROUP_ITEMS = "SELECT * FROM INVENTORY WHERE groupName = (?)";
+    private PreparedStatement getGroupItems;
 
     //adds a member to a group
     //this can also be used when a user is removed from a group because we set their groupName back to ""
@@ -115,6 +110,7 @@ public class Query {
         getGroupName = conn.prepareStatement(GET_GROUPNAME);
         getGroupMembers = conn.prepareStatement(GET_GROUP_MEMBERS);
         getRecentItems = conn.prepareStatement(GET_RECENT_ITEMS);
+        getGroupItems = conn.prepareStatement(GET_GROUP_ITEMS);
     }
 
     public Query() throws Exception {
@@ -139,7 +135,6 @@ public class Query {
         log.info("Closing database connection");
         conn.close();
     }
-
 
     /**
      * checks if a user with the given username already exists in the database
@@ -372,21 +367,18 @@ public class Query {
         }
     }
 
-//    /**
-//     * Adds a member to a group
-//     * @param itemName
-//     * @param userName
-//     * @param shared
-//     * @param category
-//     * @param quantity
-//     * @param storage
-//     * @param date
-//     * @param groupName
-//     * @return a list of lists of item entries
-//     */
-    // get the group name for the person that the item is being added
-    // counter variable in a table
-    // auto increment implementation
+    /**
+     * Adds a an inventory item
+     * @param itemName
+     * @param userName
+     * @param shared
+     * @param category
+     * @param quantity
+     * @param storage
+     * @param expiration
+     * @param quantity
+     * @return true if the item was added successfully, false otherwise
+     */
     public boolean addItem(String itemName, String userName, int shared, String category,
                         int storage, String expiration, int quantity) throws ParseException {
         Date expirationDate = Date.valueOf(expiration);
@@ -477,6 +469,36 @@ public class Query {
 
         getUserItems.setString(1, userName);
         ResultSet rs = getUserItems.executeQuery();
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        int itemNums = 1;
+        while(rs.next()) {
+            JSONObject record = new JSONObject();
+            //Inserting key-value pairs into the json object
+            record.put("itemID", rs.getInt("itemID"));
+            record.put("itemName", rs.getString("itemName"));
+            record.put("userName", rs.getString("userName"));
+            record.put("shared", rs.getInt("shared"));
+            record.put("category", rs.getString("category"));
+            record.put("storage", rs.getInt("storage"));
+            record.put("expiration", rs.getDate("expiration"));
+            record.put("dateAdded", rs.getDate("dateAdded"));
+            array.put(record);
+        }
+        jsonObject.put("Items", array);
+        return jsonObject;
+    }
+
+    /**
+     * Retrieves all of the items for a particular group
+     * @param groupName the user name we are getting the items for
+     * @return JSONObject of all the items for that group
+     */
+    public JSONObject getGroupItems(String groupName) throws SQLException {
+
+        getGroupItems.setString(1, groupName);
+        ResultSet rs = getGroupItems.executeQuery();
 
         JSONObject jsonObject = new JSONObject();
         JSONArray array = new JSONArray();
