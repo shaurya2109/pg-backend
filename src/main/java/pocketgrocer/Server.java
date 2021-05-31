@@ -305,25 +305,25 @@ public class Server {
             }
         });
 
-        post("/items/getGroup", (request, response) -> {
-            JSONObject group = new JSONObject(request.body());
-            String groupName = group.getString("groupName");
-
-            try {
-                if (!query.checkGroupExists(groupName)) {
-                    response.status(409);
-                    return ("groupName doesn't exist");
-                } else {
-                    JSONObject itemsList = query.getGroupItems(groupName);
-                    response.status(200);
-                    response.type("application/json");
-                    return itemsList.toString();
-                }
-            } catch (Exception e) {
-                response.status(400);
-                return (e);
-            }
-        });
+//        post("/items/getGroup", (request, response) -> {
+//            JSONObject group = new JSONObject(request.body());
+//            String groupName = group.getString("groupName");
+//
+//            try {
+//                if (!query.checkGroupExists(groupName)) {
+//                    response.status(409);
+//                    return ("groupName doesn't exist");
+//                } else {
+//                    JSONObject itemsList = query.getGroupItems(groupName);
+//                    response.status(200);
+//                    response.type("application/json");
+//                    return itemsList.toString();
+//                }
+//            } catch (Exception e) {
+//                response.status(400);
+//                return (e);
+//            }
+//        });
 
         post("/items/getRecent", (request, response) -> {
             JSONObject user = new JSONObject(request.body());

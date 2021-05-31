@@ -460,77 +460,78 @@ public class Query {
         }
     }
 
-//    /**
-//     * Retrieves all of the items for a particular user
-//     * @param userName the user name we are getting the items for
-//     * @return JSONObject of all the items for that user
-//     */
-//    public JSONObject getUserItems (String userName) throws SQLException {
-//
-//        getUserItems.setString(1, userName);
-//        ResultSet rs = getUserItems.executeQuery();
-//
-//        JSONObject jsonObject = new JSONObject();
-//        JSONArray array = new JSONArray();
-//        int itemNums = 1;
-//        while(rs.next()) {
-//            JSONObject record = new JSONObject();
-//            //Inserting key-value pairs into the json object
-//            record.put("itemID", rs.getInt("itemID"));
-//            record.put("itemName", rs.getString("itemName"));
-//            record.put("userName", rs.getString("userName"));
-//            record.put("shared", rs.getInt("shared"));
-//            record.put("category", rs.getString("category"));
-//            record.put("storage", rs.getInt("storage"));
-//            record.put("expiration", rs.getDate("expiration"));
-//            record.put("dateAdded", rs.getDate("dateAdded"));
-//            array.put(record);
-//        }
-//        jsonObject.put("Items", array);
-//        return jsonObject;
-//    }
     /**
-     * Retrieves all of the items for a particular user and their groupmates
+     * Retrieves all of the items for a particular user
      * @param userName the user name we are getting the items for
-     * @return JSONObject of all the items for that user and groupmates
+     * @return JSONObject of all the items for that user
      */
     public JSONObject getUserItems (String userName) throws SQLException {
-        JSONArray groupMates = groupNameAndGroupMates(userName).getJSONArray("groupMembers");
-        if(groupMates.isEmpty()){
-            groupMates.put(userName);
+
+        getUserItems.setString(1, userName);
+        ResultSet rs = getUserItems.executeQuery();
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        int itemNums = 1;
+        while(rs.next()) {
+            JSONObject record = new JSONObject();
+            //Inserting key-value pairs into the json object
+            record.put("itemID", rs.getInt("itemID"));
+            record.put("itemName", rs.getString("itemName"));
+            record.put("userName", rs.getString("userName"));
+            record.put("shared", rs.getInt("shared"));
+            record.put("category", rs.getString("category"));
+            record.put("storage", rs.getInt("storage"));
+            record.put("expiration", rs.getDate("expiration"));
+            record.put("dateAdded", rs.getDate("dateAdded"));
+            array.put(record);
         }
-        JSONObject items = getItems(groupMates);
-        return items;
+        jsonObject.put("Items", array);
+        return jsonObject;
     }
 
-    private JSONObject getItems(JSONArray groupMates) throws SQLException {
-
-        JSONObject allItems = new JSONObject();
-        JSONArray itemsPerUser = new JSONArray();
-
-        //loops through the groupmates, will be 1 singular user if the user has no groupmates
-        for (int i = 0; i < groupMates.length(); i++){
-            String userName = groupMates.getString(i);
-            getUserItems.setString(1, userName);
-            ResultSet rs = getUserItems.executeQuery();
-
-            while(rs.next()) {
-                JSONObject item = new JSONObject();
-                //Inserting key-value pairs into the json object
-                item.put("itemID", rs.getInt("itemID"));
-                item.put("itemName", rs.getString("itemName"));
-                item.put("userName", rs.getString("userName"));
-                item.put("shared", rs.getInt("shared"));
-                item.put("category", rs.getString("category"));
-                item.put("storage", rs.getInt("storage"));
-                item.put("expiration", rs.getDate("expiration"));
-                item.put("dateAdded", rs.getDate("dateAdded"));
-                itemsPerUser.put(item);
-            }
-            allItems.put(userName, itemsPerUser);
-        }
-        return allItems;
-    }
+//    /**
+//     * Retrieves all of the items for a particular user and their groupmates
+//     * @param userName the user name we are getting the items for
+//     * @return JSONObject of all the items for that user and groupmates
+//     */
+//    public JSONObject getUserItems (String userName) throws SQLException {
+//        JSONArray groupMates = groupNameAndGroupMates(userName).getJSONArray("groupMembers");
+//        if(groupMates.isEmpty()){
+//            groupMates.put(userName);
+//        }
+//        JSONObject items = getItems(groupMates);
+//        return items;
+//    }
+//
+//    private JSONObject getItems(JSONArray groupMates) throws SQLException {
+//
+//        JSONObject allItems = new JSONObject();
+//        JSONArray itemsPerUser = new JSONArray();
+//
+//        //loops through the groupmates, will be 1 singular user if the user has no groupmates
+//        for (int i = 0; i < groupMates.length(); i++){
+//            String userName = groupMates.getString(i);
+//            getUserItems.setString(1, userName);
+//            ResultSet rs = getUserItems.executeQuery();
+//
+//            while(rs.next()) {
+//                JSONObject item = new JSONObject();
+//                //Inserting key-value pairs into the json object
+//                item.put("itemID", rs.getInt("itemID"));
+//                item.put("itemName", rs.getString("itemName"));
+//                item.put("userName", rs.getString("userName"));
+//                item.put("shared", rs.getInt("shared"));
+//                item.put("category", rs.getString("category"));
+//                item.put("storage", rs.getInt("storage"));
+//                item.put("expiration", rs.getDate("expiration"));
+//                item.put("dateAdded", rs.getDate("dateAdded"));
+//                itemsPerUser.put(item);
+//            }
+//            allItems.put(userName, itemsPerUser);
+//        }
+//        return allItems;
+//    }
 
 //    /**
 //     * Retrieves all of the items for a particular group
