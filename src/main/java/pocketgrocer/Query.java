@@ -317,9 +317,7 @@ public class Query {
             JSONObject record = new JSONObject();
             record.put("GroupName", groupName);
             record.put("groupMembers", groupMembers);
-            array.put(record);
-            jsonObject.put("Result", array);
-            return jsonObject;
+            return record;
         }
 
         // now get the groupname of the current user -
@@ -507,7 +505,7 @@ public class Query {
     private JSONObject getItems(JSONArray groupMates) throws SQLException {
 
         JSONObject allItems = new JSONObject();
-        JSONArray itemsPerUser = new JSONArray();
+        JSONArray itemsArray = new JSONArray();
 
         //loops through the groupmates, will be 1 singular user if the user has no groupmates
         for (int i = 0; i < groupMates.length(); i++){
@@ -526,10 +524,10 @@ public class Query {
                 item.put("storage", rs.getInt("storage"));
                 item.put("expiration", rs.getDate("expiration"));
                 item.put("dateAdded", rs.getDate("dateAdded"));
-                itemsPerUser.put(item);
+                itemsArray.put(item);
             }
-            allItems.put(userName, itemsPerUser);
         }
+        allItems.put("Items", itemsArray);
         return allItems;
     }
 
