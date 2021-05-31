@@ -306,39 +306,38 @@ public class Query {
         }
     }
 
+    /**
+     * Gets the groupName and group members for a particular user
+     * @param userName of the person
+     * @return record, a JSONObject with two keys, GroupName and groupMembers. GroupName and GroupMembers will
+     * be empty if the user is not in a group. GroupMembers will be a JSONArray of all groupMembers of the
+     * GroupName
+     */
     public JSONObject groupNameAndGroupMates(String userName)  throws SQLException {
         List<String> groupMembers = new ArrayList<>();
         String groupName = "";
-
-        JSONObject jsonObject = new JSONObject();
-        JSONArray array = new JSONArray();
+        JSONObject record = new JSONObject();
 
         if(!isMemberInGroup(userName)){
-            JSONObject record = new JSONObject();
             record.put("GroupName", groupName);
             record.put("groupMembers", groupMembers);
             return record;
         }
 
         // now get the groupname of the current user -
-
         getGroupName.setString(1, userName);
         ResultSet rs = getGroupName.executeQuery();
 
         while(rs.next()) {
             groupName = rs.getString("groupName");
         }
-
-        // getting all the members now -
+        // getting all the members in a specific group (this includes the original userName)
         getGroupMembers.setString(1, groupName);
         ResultSet result = getGroupMembers.executeQuery();
-
         while(result.next()) {
             groupMembers.add(result.getString("userName"));
         }
 
-        // returning the results -
-        JSONObject record = new JSONObject();
         record.put("GroupName", groupName);
         record.put("groupMembers", groupMembers);
         return record;
@@ -456,40 +455,10 @@ public class Query {
         }
     }
 
-//    /**
-//     * Retrieves all of the items for a particular user
-//     * @param userName the user name we are getting the items for
-//     * @return JSONObject of all the items for that user
-//     */
-//    public JSONObject getUserItems (String userName) throws SQLException {
-//
-//        getUserItems.setString(1, userName);
-//        ResultSet rs = getUserItems.executeQuery();
-//
-//        JSONObject jsonObject = new JSONObject();
-//        JSONArray array = new JSONArray();
-//        int itemNums = 1;
-//        while(rs.next()) {
-//            JSONObject record = new JSONObject();
-//            //Inserting key-value pairs into the json object
-//            record.put("itemID", rs.getInt("itemID"));
-//            record.put("itemName", rs.getString("itemName"));
-//            record.put("userName", rs.getString("userName"));
-//            record.put("shared", rs.getInt("shared"));
-//            record.put("category", rs.getString("category"));
-//            record.put("storage", rs.getInt("storage"));
-//            record.put("expiration", rs.getDate("expiration"));
-//            record.put("dateAdded", rs.getDate("dateAdded"));
-//            array.put(record);
-//        }
-//        jsonObject.put("Items", array);
-//        return jsonObject;
-//    }
-
     /**
-     * Retrieves all of the items for a particular user and their groupmates
+     * Retrieves all of the items for a particular user and their group mates
      * @param userName the user name we are getting the items for
-     * @return JSONObject of all the items for that user and groupmates
+     * @return JSONObject of all the items for that user and group mates
      */
     public JSONObject getUserItems(String userName) throws SQLException {
         JSONArray groupMates = groupNameAndGroupMates(userName).getJSONArray("groupMembers");
@@ -500,6 +469,13 @@ public class Query {
         return items;
     }
 
+    /**
+     * Retrieves all of the items for a particular user and their group mates (gets all the items for just the
+     * user if they are not in a group)
+     * @param groupMates all of the groupMates for the particular userName. groupMates will have 1 element,
+     * the original userName passed into getUserItems if the user is not in a group.
+     * @return JSONObject of all the items for that user and group mates
+     */
     private JSONObject getItems(JSONArray groupMates) throws SQLException {
 
         JSONObject allItems = new JSONObject();
@@ -513,7 +489,6 @@ public class Query {
 
             while(rs.next()) {
                 JSONObject item = new JSONObject();
-                //Inserting key-value pairs into the json object
                 item.put("itemID", rs.getInt("itemID"));
                 item.put("itemName", rs.getString("itemName"));
                 item.put("userName", rs.getString("userName"));
@@ -528,36 +503,6 @@ public class Query {
         allItems.put("Items", itemsArray);
         return allItems;
     }
-
-//    /**
-//     * Retrieves all of the items for a particular group
-//     * @param groupName the user name we are getting the items for
-//     * @return JSONObject of all the items for that group
-//     */
-//    public JSONObject getGroupItems(String groupName) throws SQLException {
-//
-//        getGroupItems.setString(1, groupName);
-//        ResultSet rs = getGroupItems.executeQuery();
-//
-//        JSONObject jsonObject = new JSONObject();
-//        JSONArray array = new JSONArray();
-//        int itemNums = 1;
-//        while(rs.next()) {
-//            JSONObject record = new JSONObject();
-//            //Inserting key-value pairs into the json object
-//            record.put("itemID", rs.getInt("itemID"));
-//            record.put("itemName", rs.getString("itemName"));
-//            record.put("userName", rs.getString("userName"));
-//            record.put("shared", rs.getInt("shared"));
-//            record.put("category", rs.getString("category"));
-//            record.put("storage", rs.getInt("storage"));
-//            record.put("expiration", rs.getDate("expiration"));
-//            record.put("dateAdded", rs.getDate("dateAdded"));
-//            array.put(record);
-//        }
-//        jsonObject.put("Items", array);
-//        return jsonObject;
-//    }
 
     /**
      * Checks whether or not this item exists
