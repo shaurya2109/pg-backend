@@ -341,9 +341,7 @@ public class Query {
         JSONObject record = new JSONObject();
         record.put("GroupName", groupName);
         record.put("groupMembers", groupMembers);
-        array.put(record);
-        jsonObject.put("Result", array);
-        return jsonObject;
+        return record;
     }
 
     /**
