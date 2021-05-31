@@ -419,6 +419,10 @@ public class Query {
         return true;
     }
 
+    /**
+     * gets the current ID in the counter table for adding inventory items
+     * @return the ID for the next item
+     */
     public int getID(){
         try{
             ResultSet rs = get_counter.executeQuery();
@@ -432,6 +436,10 @@ public class Query {
         return -1;
     }
 
+    /**
+     * Updates the ID in the counter table for the next inventory item
+     * @return true if the counter was executed successfully, false otherwise
+     */
     public boolean UpdateID(int id){
         try {
             update_id.setInt(1, id);
@@ -443,9 +451,13 @@ public class Query {
         }
     }
 
+    /**
+     * Deletes a singular item from the inventory table
+     * @param itemID the id of the item being deleted
+     * @return true if the item was deleted successfully, false otherwise
+     */
     public boolean deleteItem(int itemID){
         try {
-            //We don't need to check if the user exists in the table since the request is coming straight from
             deleteItem.setInt(1, itemID);
             deleteItem.execute();
             return true;
@@ -456,6 +468,11 @@ public class Query {
         }
     }
 
+    /**
+     * Retrieves all of the items for a particular user
+     * @param userName the user name we are getting the items for
+     * @return JSONObject of all the items for that user
+     */
     public JSONObject getUserItems (String userName) throws SQLException {
 
         getUserItems.setString(1, userName);
@@ -521,6 +538,12 @@ public class Query {
         }
     }
 
+    /**
+     * Retrieves the recently purchased items for a user. These will be displayed in a dropdown when inputting
+     * the purchased items (people tend to buy similar items over time so we wanted to make those readily available)
+     * @param userName the userName of the user for which we are getting the recently purchased items
+     * @return JSONObject of the recently purchased items
+     */
     public JSONObject getRecentlyPurchased(String userName) throws SQLException {
         getRecentItems.setString(1, userName);
         ResultSet rs = getUserItems.executeQuery();
@@ -545,14 +568,3 @@ public class Query {
         return jsonObject;
     }
 }
-
-/*
-query.userExists(username);
-query.addUser(username, firstName, lastName, password);
-query.checkLogin(username, password);
-query.inGroup(username); // checks if user is already in a group or not
-*/
-
-
-
-// add item to the inventory datapoint
