@@ -72,9 +72,6 @@ public class Query {
     private static final String CHANGE_SHARED = "UPDATE INVENTORY SET shared = (?) WHERE itemID = (?)";
     private PreparedStatement changeShared;
 
-    private static final String GET_GROUP_ITEMS = "SELECT * FROM INVENTORY WHERE groupName = (?)";
-    private PreparedStatement getGroupItems;
-
     //adds a member to a group
     //this can also be used when a user is removed from a group because we set their groupName back to ""
     //if we want to use this statement for both it will need a more general name like UPDATE_MEMBER_GROUP
@@ -110,7 +107,6 @@ public class Query {
         getGroupName = conn.prepareStatement(GET_GROUPNAME);
         getGroupMembers = conn.prepareStatement(GET_GROUP_MEMBERS);
         getRecentItems = conn.prepareStatement(GET_RECENT_ITEMS);
-        getGroupItems = conn.prepareStatement(GET_GROUP_ITEMS);
     }
 
     public Query() throws Exception {
